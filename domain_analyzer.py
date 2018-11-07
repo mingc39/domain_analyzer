@@ -389,7 +389,7 @@ def get_NS_records(domain):
                     # Do we have the country of this ip?
                     has_country=False
                     for dicts in ip_registry:
-                        if dicts.has_key('IpCountry'):
+                        if 'IpCountry' in dicts:
                             has_country=True
 
                     if not has_country and countrys:
@@ -407,7 +407,7 @@ def get_NS_records(domain):
                     # Obtain Ip's reverse DNS name if we don't have it
                     has_ptr=False
                     for dicts in ip_registry:
-                        if dicts.has_key('PTR'):
+                        if 'PTR' in dicts:
                             has_ptr=True
 
                     if not has_ptr:
@@ -531,7 +531,7 @@ def get_MX_records(domain):
                     # Do we have the country of this ip?
                     has_country=False
                     for dicts in ip_registry:
-                        if dicts.has_key('IpCountry'):
+                        if 'IpCountry' in dicts:
                             has_country=True
 
                     if not has_country and countrys:
@@ -548,7 +548,7 @@ def get_MX_records(domain):
                     # Obtain Ip's reverse DNS name if we don't have it
                     has_ptr=False
                     for dicts in ip_registry:
-                        if dicts.has_key('PTR'):
+                        if 'PTR' in dicts:
                             has_ptr=True
 
                     if not has_ptr:
@@ -693,7 +693,7 @@ def dns_request(domain):
 
                 for ip in domain_data['IpsInfo']:
                     for dicts in domain_data['IpsInfo'][ip]:
-                        if dicts.has_key('Type'):
+                        if 'Type' in dicts:
                             if dicts['Type']=='NS':
                                 name_servers_list.append(ip)
 
@@ -841,7 +841,7 @@ def dns_request(domain):
                                     # Do we have the country of this ip?
                                     has_country=False
                                     for dicts in ip_registry:
-                                        if dicts.has_key('IpCountry'):
+                                        if 'IpCountry' in dicts:
                                             has_country=True
 
                                     if not has_country and countrys:
@@ -858,7 +858,7 @@ def dns_request(domain):
                                     # Obtain Ip's reverse DNS name if we don't have it
                                     has_ptr=False
                                     for dicts in ip_registry:
-                                        if dicts.has_key('PTR'):
+                                        if 'PTR' in dicts:
                                             has_ptr=True
 
                                     if not has_ptr:
@@ -1228,7 +1228,7 @@ def check_A_records(domain,text=""):
                         # Do we have the country of this ip?
                         has_country=False
                         for dicts in ip_registry:
-                            if dicts.has_key('IpCountry'):
+                            if 'IpCountry' in dicts:
                                 has_country=True
 
                         if not has_country and countrys:
@@ -1251,7 +1251,7 @@ def check_A_records(domain,text=""):
                         # Obtain Ip's reverse DNS name if we don't have it
                         has_ptr=False
                         for dicts in ip_registry:
-                            if dicts.has_key('PTR'):
+                            if 'PTR' in dicts:
                                 has_ptr=True
 
                         if not has_ptr:
@@ -1331,8 +1331,8 @@ def find_and_analyze_random_domains(domain, amount):
 
     try:
         import string
-        import httplib
-        import urllib2
+        import http.client
+        import urllib.request
         import re
         import random
         domain_dict={}
@@ -1360,9 +1360,9 @@ def find_and_analyze_random_domains(domain, amount):
             page_counter_web = random.randrange(1,100,10)
             try:
                 results_web = 'http://www.google.com/search?q=inurl%3a'+str(domain)+'&hl=en&btnG=Search&aq=f&start='+ repr(page_counter_web) + '&sa=N'
-                request_web = urllib2.Request(results_web)
+                request_web = urllib.request.Request(results_web)
                 request_web.add_header('User-Agent','Mozilla/4.0 (compatible;MSIE 5.5; Windows NT 5.0)')
-                opener_web = urllib2.build_opener()
+                opener_web = urllib.request.build_opener()
                 text = opener_web.open(request_web).read()
         
                 # This re extracts the domains
@@ -1496,6 +1496,8 @@ def check_domain_emails(domain):
         finished = 0
         while not finished:
             finished = 1
+            print(type(text))
+            text.find("<")
             start = text.find("<")
             if start >= 0:
                 stop = text[start:].find(">")
@@ -1505,8 +1507,8 @@ def check_domain_emails(domain):
         return text
     try:
         import string
-        import httplib
-        import urllib2
+        import http.client
+        import urllib.request
         import re
         print( '\n\tSearching for {0} emails in Google'.format(domain))
         if output_file!="":
@@ -1516,9 +1518,9 @@ def check_domain_emails(domain):
         try:
             while page_counter < 50 :
                 results = 'http://groups.google.com/groups?q='+str(domain)+'&hl=en&lr=&ie=UTF-8&start=' + repr(page_counter) + '&sa=N'
-                request = urllib2.Request(results)
+                request = urllib.request.Request(results)
                 request.add_header('User-Agent','Mozilla/4.0 (compatible; MSIE 5.5; Windows NT 5.0)')
-                opener = urllib2.build_opener()
+                opener = urllib.request.build_opener()
                 text = opener.open(request).read()
                 emails = (re.findall('([\w\.\-]+@'+domain+')',StripTags(text)))
                 for email in emails:
@@ -1531,9 +1533,9 @@ def check_domain_emails(domain):
         try:
             while page_counter_web < 50 :
                 results_web = 'http://www.google.com/search?q=%40'+str(domain)+'&hl=en&lr=&ie=UTF-8&start='+ repr(page_counter_web) + '&sa=N'
-                request_web = urllib2.Request(results_web)
+                request_web = urllib.request.Request(results_web)
                 request_web.add_header('User-Agent','Mozilla/4.0 (compatible;MSIE 5.5; Windows NT 5.0)')
-                opener_web = urllib2.build_opener()
+                opener_web = urllib.request.build_opener()
                 text = opener_web.open(request_web).read()
                 emails_web = (re.findall('([\w\.\-]+@'+domain+')',StripTags(text)))
                 for email_web in emails_web:
@@ -1687,12 +1689,12 @@ def host_info(domain):
             try:
                 # First read the variables...
                 for dicts in ip_registry:
-                    if dicts.has_key('PTR'):
+                    if 'PTR' in dicts:
                         host_name_temp=dicts.get('PTR')
                         host_name=host_name_temp+' (PTR)'
-                    elif dicts.has_key('HostName'):
+                    elif 'HostName' in dicts:
                         host_name=dicts.get('HostName')
-                    if dicts.has_key('HostUp'):
+                    if 'HostUp' in dicts:
                         # Only scan active hosts
                         if 'True' in dicts['HostUp']:
                             print( '\t\tScanning ip {0} ({1}):'.format(ip,host_name))
@@ -1862,7 +1864,7 @@ def printout(domain,ip,option):
 
                 for domdata in domain_data['DomainInfo']:
                     # We print the emails found for this domain
-                    if domdata.has_key('Email'):
+                    if 'Email' in domdata:
                         logging.warning('\t\tEmail: {0}'.format(domdata['Email']))
                         if output_file!="":
                             output_file_handler.writelines('\t\tEmail: {0}\n'.format(domdata.get('Email')))
@@ -1883,7 +1885,7 @@ def printout(domain,ip,option):
                     output_file_handler.writelines('\t\tIP: {0}\n'.format(ip))
                 # These things are many times for ip
                 for dicts in ip_vect:
-                    if dicts.has_key('PTR'):
+                    if 'PTR' in dicts:
                         if dicts.get('PTR') != hostname:
                             logging.warning('\t\t\tHostName: {0}\t\t\tType: PTR'.format(dicts.get('PTR')))
                             if output_file!="":
@@ -1892,31 +1894,31 @@ def printout(domain,ip,option):
                             print( '\t\t\tHostName: {0}\t\t\tType: PTR'.format(dicts.get('PTR')))
                             if output_file!="":
                                 output_file_handler.writelines('\t\t\tHostName: {0}\t\t\tType: PTR\n'.format(dicts.get('PTR')))
-                    if dicts.has_key('HostName'):
+                    if 'HostName' in dicts:
                         print( '\t\t\tHostName: {0}'.format(dicts.get('HostName')),)
                         hostname=dicts.get('HostName')
                         if output_file!="":
                             output_file_handler.writelines('\t\t\tHostName: {0}'.format(dicts.get('HostName')))
-                    if dicts.has_key('Type'):
+                    if 'Type' in dicts:
                         print( '\t\t\tType: {0}'.format(dicts.get('Type')))
                         if output_file!="":
                             output_file_handler.writelines('\t\t\tType: {0}\n'.format(dicts.get('Type')))
-                    if dicts.has_key('SubDomain'):
+                    if 'SubDomain' in dicts:
                         logging.error('\t\t\tSub Domain: {0}'.format(dicts['SubDomain']))
                         if output_file!="":
                             output_file_handler.writelines('\t\t\tSub Domain: {0}\n'.format(dicts.get('SubDomain')))
 
                 # These things are just once for ip
                 for dicts in ip_vect:
-                    if dicts.has_key('IpCountry'):
+                    if 'IpCountry' in dicts:
                         logging.info('\t\t\tCountry: {0}'.format(dicts.get('IpCountry')))
                         if output_file!="":
                             output_file_handler.writelines('\t\t\tCountry: {0}\n'.format(dicts.get('IpCountry')))
-                    if dicts.has_key('HostUp'):
+                    if 'HostUp' in dicts:
                         logging.info('\t\t\tIs Active: {0}'.format(dicts.get('HostUp')))
                         if output_file!="":
                             output_file_handler.writelines('\t\t\tIs Active: {0}\n'.format(dicts.get('HostUp')))
-                    if dicts.has_key('PortInfo'):
+                    if 'PortInfo' in dicts:
                         # Try to find critical ports
                         critical=True
                         for cport in normal_port_list:
@@ -1932,20 +1934,20 @@ def printout(domain,ip,option):
                             if output_file!="":
                                 output_file_handler.writelines('\t\t\tPort: {0}\n'.format(dicts.get('PortInfo')))
 
-                    if dicts.has_key('ScriptInfo'):
+                    if 'ScriptInfo' in dicts:
                         print( '\t\t\t\tScript Info: {0}'.format(dicts.get('ScriptInfo')))
                         if output_file!="":
                             output_file_handler.writelines('\t\t\t\tScript Info: {0}\n'.format(dicts.get('ScriptInfo')))
 
-                    if dicts.has_key('OsInfo'):
+                    if 'OsInfo' in dicts:
                         print( '\t\t\tOs Info: {0}'.format(dicts.get('OsInfo')))
                         if output_file!="":
                             output_file_handler.writelines('\t\t\tOs Info: {0}\n'.format(dicts.get('OsInfo')))
-                    if dicts.has_key('ZT'):
+                    if 'ZT' in dicts:
                         logging.critical('\t\t\tZone Transfer: {0}'.format(dicts.get('ZT')))
                         if output_file!="":
                             output_file_handler.writelines('\t\t\tZone Transfer: {0}\n'.format(dicts.get('ZT')))
-                    if dicts.has_key('DirIndex'):
+                    if 'DirIndex' in dicts:
                         logging.critical('\t\t\tOpen Folders: {0}'.format(dicts.get('DirIndex')))
                         if output_file!="":
                             output_file_handler.writelines('\t\t\tOpen Folders: {0}\n'.format(dicts.get('DirIndex')))
@@ -1971,7 +1973,7 @@ def printout(domain,ip,option):
             # Things that are once per IP
             if countrys:
                 for dicts in ip_vect:
-                    if dicts.has_key('IpCountry'):
+                    if 'IpCountry' in dicts:
                         country=dicts.get('IpCountry')
     
                 logging.info('\t\tIP: {0} ({1})'.format(ip,country))
@@ -1980,7 +1982,7 @@ def printout(domain,ip,option):
             # Things that are multiple times per IP
             hostname=""
             for dicts in ip_vect:
-                if dicts.has_key('PTR'):
+                if 'PTR' in dicts:
                     if dicts.get('PTR') != hostname:
                         logging.warning('\t\t\tHostName: {0}\t\t\tType: PTR'.format(dicts.get('PTR')))
                         if output_file!="":
@@ -1989,16 +1991,16 @@ def printout(domain,ip,option):
                         print( '\t\t\tHostName: {0}\t\t\tType: PTR'.format(dicts.get('PTR')))
                         if output_file!="":
                             output_file_handler.writelines('\t\t\tHostName: {0}\t\t\tType: PTR\n'.format(dicts.get('PTR')))
-                if dicts.has_key('Type'):
+                if 'Type' in dicts:
                     print( '\t\t\tType: {0}'.format(dicts.get('Type')))
                     if output_file!="":
                         output_file_handler.writelines('\t\t\tType: {0}\n'.format(dicts.get('Type')))
-                if dicts.has_key('HostName'):
+                if 'HostName' in dicts:
                     hostname=dicts.get('HostName')
                     print( '\t\t\tHostName: {0}'.format(dicts.get('HostName')),)
                     if output_file!="":
                         output_file_handler.writelines('\t\t\tHostName: {0}'.format(dicts.get('HostName')))
-                if dicts.has_key('SubDomain'):
+                if 'SubDomain' in dicts:
                     logging.error('\t\t\tSub Domain: {0} <- New Subdomain!'.format(dicts['SubDomain']))
                     if output_file!="":
                         output_file_handler.writelines('\t\t\tSub Domain: {0} <- New Subdomain!\n'.format(dicts['SubDomain']))
@@ -2169,8 +2171,8 @@ def find_robtex_domains():
     try:
 
         import string
-        import httplib
-        import urllib2
+        import http.client
+        import urllib.request
         import re
         import random
 
@@ -2186,23 +2188,23 @@ def find_robtex_domains():
 
             if robtex_domains or all_robtex:
                 for dicts in ip_vect:
-                    if dicts.has_key('HostName'):
+                    if 'HostName' in dicts:
                         hostname=dicts['HostName']
-                    if dicts.has_key('ZT'):
+                    if 'ZT' in dicts:
                         # Now we store the dns server in the list (for recursion) but avoid repiting! 
                         # We use the IP because a lot of dns has several different names.
-                        if not ns_servers_to_robtex.has_key(ip):
+                        if not ip in ns_servers_to_robtex:
                             ns_servers_to_robtex[ip]=hostname        
                             if debug:
                                 logging.debug('\tName server {0} ({1}) was added to be checked with robtex.'.format(ip, hostname))
             elif all_robtex:
                 for dicts in ip_vect:
-                    if dicts.has_key('HostName'):
+                    if 'HostName' in dicts:
                         hostname=dicts['HostName']
-                    if dicts.has_key('NS'):
+                    if 'NS' in dicts:
                         # Now we store the dns server in the list (for recursion) but avoid repiting! 
                         # We use the IP because a lot of dns has several different names.
-                        if not ns_servers_to_robtex.has_key(ip):
+                        if not ip in ns_servers_to_robtex:
                             ns_servers_to_robtex[ip]=hostname        
                             if debug:
                                 logging.debug('\tName server {0} ({1}) was added to be checked with robtex.'.format(ip, hostname))
@@ -2220,9 +2222,9 @@ def find_robtex_domains():
 
                 # For each DNS server ask robtex unrelated domains with the same DNS
                 results_web = 'http://www.robtex.com/dns/'+ hostname +'.html'
-                request_web = urllib2.Request(results_web)
+                request_web = urllib.request.Request(results_web)
                 request_web.add_header('User-Agent','Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/534.16 (KHTML, like Gecko) Chrome/10.0.648.205 Safari/534.16')
-                opener_web = urllib2.build_opener()
+                opener_web = urllib.request.build_opener()
                 try:
                     text = opener_web.open(request_web).read()
                 except:
@@ -2320,7 +2322,7 @@ def robin_hood_send():
                 # First we search for every MX type!
                 temp_host_name_to_crawl=[]
                 for dicts in ip_vect:
-                    if dicts.has_key('Type'):
+                    if 'Type' in dicts:
                         # Store last domain for this IP
                         if 'MX' in dicts['Type']:
                             mail_server=dicts.get('Type')
@@ -2409,7 +2411,7 @@ def web_crawl_domain():
                 # First we search for every hostname!
                 temp_host_name_to_crawl=[]
                 for dicts in ip_vect:
-                    if dicts.has_key('HostName'):
+                    if 'HostName' in dicts:
                         # Store last domain for this IP
                         temp_host_name_to_crawl.append(dicts.get('HostName'))
                         if debug:
@@ -2424,7 +2426,7 @@ def web_crawl_domain():
                 crawler_results=[]
                 # Now look for web ports in these hostnames
                 for moredicts in ip_vect:
-                    if moredicts.has_key('PortInfo'):
+                    if 'PortInfo' in moredicts:
                         temp_port_info= moredicts.get('PortInfo')
                         # Find only web ports
                         if temp_port_info.find('http') != -1 and temp_port_info.find('?')==-1:

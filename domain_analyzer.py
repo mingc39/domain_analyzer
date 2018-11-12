@@ -1621,7 +1621,7 @@ def check_active_host():
                         pass
                     nmap_command_temp = 'nmap -sn -n -v -PP -PM -PS80,25 -PA -PY -PU53,40125 -PE --reason '+ip+' -oA '+output_directory+'/nmap/'+ip+'.sn'
                 nmap_command=shlex.split(nmap_command_temp)
-                nmap_result=Popen(nmap_command, stdout=PIPE).communicate()[0]
+                nmap_result=Popen(nmap_command, stdout=PIPE).communicate()[0].decode('euc-kr')
                 if nmap_result.find('Host is up, received')!=-1:
                     reason=nmap_result.split('received ')[1].split(' (')[0]
                     hostup['HostUp']='True ('+reason+')'

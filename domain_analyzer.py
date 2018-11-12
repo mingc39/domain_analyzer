@@ -1496,7 +1496,6 @@ def check_domain_emails(domain):
         finished = 0
         while not finished:
             finished = 1
-            print(type(text))
             text.find("<")
             start = text.find("<")
             if start >= 0:
@@ -1521,7 +1520,7 @@ def check_domain_emails(domain):
                 request = urllib.request.Request(results)
                 request.add_header('User-Agent','Mozilla/4.0 (compatible; MSIE 5.5; Windows NT 5.0)')
                 opener = urllib.request.build_opener()
-                text = opener.open(request).read()
+                text = opener.open(request).read().decode()
                 emails = (re.findall('([\w\.\-]+@'+domain+')',StripTags(text)))
                 for email in emails:
                     d[email]=1
@@ -1536,7 +1535,7 @@ def check_domain_emails(domain):
                 request_web = urllib.request.Request(results_web)
                 request_web.add_header('User-Agent','Mozilla/4.0 (compatible;MSIE 5.5; Windows NT 5.0)')
                 opener_web = urllib.request.build_opener()
-                text = opener_web.open(request_web).read()
+                text = opener_web.open(request_web).read().decode()
                 emails_web = (re.findall('([\w\.\-]+@'+domain+')',StripTags(text)))
                 for email_web in emails_web:
                     d[email_web]=1

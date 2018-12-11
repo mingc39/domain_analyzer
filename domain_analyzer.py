@@ -33,7 +33,7 @@
 #       - Changed robtex web url.
 # 0.6
 #    - Some minor bug fixes when dealing with host that do not have a host name or a PTR record.
-# 0.5   
+# 0.5
 #       - Added an option to download files from the crawler to the output directory
 #       - Now crawler results are obtained ok
 #       - Old udp option was deleted
@@ -46,7 +46,7 @@
 #     - Now we randomly find X domain in internet and analyze them
 #     - Store every line in the output file, not just the summary
 #    - We avoid adding subdomains if we found a broken DNS server with recursive subdomains
-#    - Now we also print out in the output file what is going on during the analysis and we don't wait until we finish to print everything out.
+#    - Now we also  out in the output file what is going on during the analysis and we don't wait until we finish to print everything out.
 #     - Check SPF record, looking for ip addresses and hostnames
 #     - We store in the output file the new subdomains found and in the printout
 #    - Now xml stylesheet is used.
@@ -63,16 +63,14 @@
 #    - We create a pdf report from the text file
 #    - We added subdomains automatic analysis. It can found recursive subdomains!
 #    - We added email searching for that domain in google sets and google
-# 0.4   
-#    - Fixed a bug that prevented this to work fine under Debian systems. (Something with False!="" exploting)
-#    - Now the directory is not created until we know some DNS servers exist
-#    - Now if the domain does not exists, we exit
+# 0.4
+#    - Fixed a bug that prevented this to work fine under Debian systems. (Something with False!="" exploting)#    - Now if the domain does not exists, we exit
 #    - We use zenmap to show the topology of the hosts.
 #    - A parameter not to store nmap output files on disk
 #    - We create an output directory with everything into it.
 #    - A parameter -z to only scan host in the zone transfer. This is now stored correctly.
 #    - some minor typo fixes
-# 0.3  
+# 0.3
 #     - A parameter not to scan with nmap
 #     - A parameter to do everything only when ZT is successful
 # 0.2 New filename without dash
@@ -80,7 +78,7 @@
 # 0.1 feb 2 2011: Creation
 #
 # TODO
-# - We still don't read every nmap results 
+# - We still don't read every nmap results
 # - OBTAIN THE CRAWLER RESULTS CORRECLTY!!!
 # - Use threads to improve the performance.
 # - Create a tar.gz with everything!
@@ -136,17 +134,17 @@ vernum = "0.8.2"
 
 # domain_data{'IpsInfo'}
 #    {
-#    '1.1.1.1':    [     {'HostName':'test.com'}, 
-#                {'Type':'NS'}, 
-#                {'IpCountry':'Peru'}, 
-#                {'PTR':'rev.name.pe'}, 
-#                {'SubDomain':'other.test.com'}, 
-#                {'HostUp': True}, 
-#                {'PortInfo':'text'}    
-#                {'ScriptInfo':'text'}    
-#                {'OSInfo':'Linux'}    
-#                {'ZT': 23}    
-#                {'DirIndex':}    
+#    '1.1.1.1':    [     {'HostName':'test.com'},
+#                {'Type':'NS'},
+#                {'IpCountry':'Peru'},
+#                {'PTR':'rev.name.pe'},
+#                {'SubDomain':'other.test.com'},
+#                {'HostUp': True},
+#                {'PortInfo':'text'}
+#                {'ScriptInfo':'text'}
+#                {'OSInfo':'Linux'}
+#                {'ZT': 23}
+#                {'DirIndex':}
 #            ]
 #    '2.2.2.2':    [
 #            ]
@@ -252,26 +250,41 @@ common_list_path = ""
 # zenmap command
 zenmap_command = 'zenmap'
 
+check_language =True
+
 # End of global variables
 ###########################
 
 
 
-# Print version information 
+# Print version information
 def version():
-  print( "+----------------------------------------------------------------------+")
-  print( "| "+ sys.argv[0] + " Version "+ vernum +"                                   |")
-  print( "| This program is free software; you can redistribute it and/or modify |")
-  print( "| it under the terms of the GNU General Public License as published by |")
-  print( "| the Free Software Foundation; either version 2 of the License, or    |")
-  print( "| (at your option) any later version.                                  |")
-  print( "|                                                                      |")
-  print( "| Author: Garcia Sebastian, eldraco@gmail.com                          |")
-  print( "| Author: Veronica Valeros, vero.valeros@gmail.com                     |")
-  print( "| www.mateslab.com.ar - Argentina                                      |")
-  print( "+----------------------------------------------------------------------+")
-  print
-
+    global check_language
+    if check_language==True :
+        print( "+----------------------------------------------------------------------+")
+        print( "| "+ sys.argv[0] + " Version "+ vernum +"                                   |")
+        print( "| This program is free software; you can redistribute it and/or modify |")
+        print( "| it under the terms of the GNU General Public License as published by |")
+        print( "| the Free Software Foundation; either version 2 of the License, or    |")
+        print( "| (at your option) any later version.                                  |")
+        print( "|                                                                      |")
+        print( "| Author: Garcia Sebastian, eldraco@gmail.com                          |")
+        print( "| Author: Veronica Valeros, vero.valeros@gmail.com                     |")
+        print( "| www.mateslab.com.ar - Argentina                                      |")
+        print( "+----------------------------------------------------------------------+")
+        print()
+    else :
+        print( "+----------------------------------------------------------------------+")
+        print( "| "+ sys.argv[0] + " Version "+ vernum +"                                   |")
+        print( "| 이 프로그램은 무료 소프트웨어로서 재배포 및/또는 수정 가능.              |")
+        print( "| the Free Software Foundation에서 발행한 GNU General Public License 조 |")
+        print( "| 건에 따른다 (version 2 라이센스 포함) (혹은 이후 version)              |")
+        print( "|                                                                      |")
+        print( "| Author: Garcia Sebastian, eldraco@gmail.com                          |")
+        print( "| Author: Veronica Valeros, vero.valeros@gmail.com                     |")
+        print( "| www.mateslab.com.ar - Argentina                                      |")
+        print( "+----------------------------------------------------------------------+")
+        print()
 # Print help information and exit:
 def usage():
 #  print "+----------------------------------------------------------------------+"
@@ -285,39 +298,75 @@ def usage():
 #  print "| Author: Veronica Valeros, vero.valeros@gmail.com                     |"
 #  print "| www.mateslab.com.ar - Argentina                                      |"
 #  print "+----------------------------------------------------------------------+"
-  print( "\nusage: %s -d <domain> <options>" % sys.argv[0])
-  print( "options:")
-  print( "  -h, --help                     Show this help message and exit.")
-  print( "  -V, --version                  Output version information and exit.")
-  print( "  -D, --debug                Debug.")
-  print( "  -d, --domain                Domain to analyze.")
-  print( "  -L <list>, --common-hosts-list <list>    Relative path to txt file containing common hostnames. One name per line.")
-  print( "  -j, --not-common-hosts-names        Do not check common host names. Quicker but you will lose hosts.")
-  print( "  -t, --not-zone-transfer          Do not attempt to transfer the zone.")
-  print( "  -n, --not-net-block              Do not attempt to -sL each IP netblock.")
-  print( "  -o, --store-output             Store everything in a directory named as the domain. Nmap output files and the summary are stored inside.")
-  print( "  -a, --not-scan-or-active          Do not use nmap to scan ports nor to search for active hosts.")
-  print( "  -p, --not-store-nmap          Do not store any nmap output files in the directory <output-directory>/nmap.")
-  print( "  -e, --zenmap                  Move xml nmap files to a directory and open zenmap with the topology of the whole group. Your user should have access to the DISPLAY variable.")
-  print( "  -g, --not-goog-mail              Do not use goog-mail.py (embebed) to look for emails for each domain")
-  print( "  -s, --not-subdomains          Do not analyze sub-domains recursively. You will lose subdomain internal information.")
-  print( "  -f, --create-pdf              Create a pdf file with all the information.")
-  print( "  -l, --world-domination          Scan every gov,mil,org and net domains of every country on the world. Interesting if you don't use -s")
-  print( "  -r, --robin-hood              Send the pdf report to every email found using domains the MX servers found. Good girl.")
-  print( "  -w, --not-webcrawl              Do not web crawl every web site (in every port) we found looking for public web mis-configurations (Directory listing, etc.).")
-  print( "  -m, --max-amount-to-crawl        If you crawl, do it up to this amount of links for each web site. Defaults to 50.")
-  print( "  -F, --download-files            If you crawl, download every file to disk.")
-  print( "  -c, --not-countrys            Do not resolve the country name for every IP and hostname.")
-  print( "  -C, --not-colors            Do not use colored output.")
-  print( "  -q, --not-spf                Do not check SPF records.")
-  print( "  -k, --random-domains            Find this amount of domains from google and analyze them. For base domain use -d")
-  print( "  -v, --ignore-host-pattern        When using nmap to find active hosts and to port scan, ignore hosts which names match this pattern. Separete them with commas.")
-  print( "  -x, --nmap-scantype            Nmap parameters to port scan. Defaults to: '-O --reason --webxml --traceroute -sS -sV -sC -PN -n -v -F' .")
-  print( "  -b, --robtex-domains            If we found a DNS server with zone transfer activated, search other UNrelated domains using that DNS server with robtex and analyze them too.")
-  print( "  -B, --all-robtex            Like -b, but also if no Zone Transfer was found. Useful to analyze all the domains in one corporative DNS server. Includes also -b.")
-  print( "Press CTRL-C at any time to stop only the current step.")
-  print
-  sys.exit(1)
+    global check_language
+    if check_language==True :
+
+        print( "\nusage: %s -d <domain> <options>" % sys.argv[0])
+        print( "options:")
+        print( "  -h, --help                     Show this help message and exit.")
+        print( "  -V, --version                  Output version information and exit.")
+        print( "  -D, --debug                Debug.")
+        print( "  -d, --domain                Domain to analyze.")
+        print( "  -L <list>, --common-hosts-list <list>    Relative path to txt file containing common hostnames. One name per line.")
+        print( "  -j, --not-common-hosts-names        Do not check common host names. Quicker but you will lose hosts.")
+        print( "  -t, --not-zone-transfer          Do not attempt to transfer the zone.")
+        print( "  -n, --not-net-block              Do not attempt to -sL each IP netblock.")
+        print( "  -o, --store-output             Store everything in a directory named as the domain. Nmap output files and the summary are stored inside.")
+        print( "  -a, --not-scan-or-active          Do not use nmap to scan ports nor to search for active hosts.")
+        print( "  -p, --not-store-nmap          Do not store any nmap output files in the directory <output-directory>/nmap.")
+        print( "  -e, --zenmap                  Move xml nmap files to a directory and open zenmap with the topology of the whole group. Your user should have access to the DISPLAY variable.")
+        print( "  -g, --not-goog-mail              Do not use goog-mail.py (embebed) to look for emails for each domain")
+        print( "  -s, --not-subdomains          Do not analyze sub-domains recursively. You will lose subdomain internal information.")
+        print( "  -f, --create-pdf              Create a pdf file with all the information.")
+        print( "  -l, --world-domination          Scan every gov,mil,org and net domains of every country on the world. Interesting if you don't use -s")
+        print( "  -r, --robin-hood              Send the pdf report to every email found using domains the MX servers found. Good girl.")
+        print( "  -w, --not-webcrawl              Do not web crawl every web site (in every port) we found looking for public web mis-configurations (Directory listing, etc.).")
+        print( "  -m, --max-amount-to-crawl        If you crawl, do it up to this amount of links for each web site. Defaults to 50.")
+        print( "  -F, --download-files            If you crawl, download every file to disk.")
+        print( "  -c, --not-countrys            Do not resolve the country name for every IP and hostname.")
+        print( "  -C, --not-colors            Do not use colored output.")
+        print( "  -q, --not-spf                Do not check SPF records.")
+        print( "  -k, --random-domains            Find this amount of domains from google and analyze them. For base domain use -d")
+        print( "  -v, --ignore-host-pattern        When using nmap to find active hosts and to port scan, ignore hosts which names match this pattern. Separete them with commas.")
+        print( "  -x, --nmap-scantype            Nmap parameters to port scan. Defaults to: '-O --reason --webxml --traceroute -sS -sV -sC -PN -n -v -F' .")
+        print( "  -b, --robtex-domains            If we found a DNS server with zone transfer activated, search other UNrelated domains using that DNS server with robtex and analyze them too.")
+        print( "  -B, --all-robtex            Like -b, but also if no Zone Transfer was found. Useful to analyze all the domains in one corporative DNS server. Includes also -b.")
+        print( "  -K, --language-korea  change print language to korea")
+        print( "Press CTRL-C at any time to stop only the current step.")
+    else :
+        print( "\nusage: %s -d <domain> <options>" % sys.argv[0])
+        print( "옵션:")
+        print( "  -h, --help                     도움말 메시지 표시.")
+        print( "  -V, --version                  버전 정보 출력.")
+        print( "  -D, --debug                디버그.")
+        print( "  -d, --domain                분석할 도메인 지정.")
+        print( "  -L <list>, --common-hosts-list <list>    common hostname을 포함하는 txt파일에 대한 상대 경로 .")
+        print( "  -j, --not-common-hosts-names        common hostname을 포함하는 정보 체크 해제.")
+        print( "  -t, --not-zone-transfer          영역 전송 체크 해제 .")
+        print( "  -n, --not-net-block              IP netblock 체크 해제.")
+        print( "  -o, --store-output             도메인 이름으로 명명된 디렉터리에 모든 정보 저장, Nmap 출력 파일 및 요약이 내부에 저장됨.")
+        print( "  -a, --not-scan-or-active          포트검색, 활성호스트 검색을 위한 nmap 사용 해제.")
+        print( "  -p, --not-store-nmap          디렉토리 <output-directory>/nmap에 nmap 출력 파일을 저장하지 않음.")
+        print( "  -e, --zenmap                  xml nmap 파일을 디렉토리로 이동하고 전체 그룹의 토폴로지로 zenmap을 연다. 사용자가 디스플레이 변수에 액세스할 수 있어야 함.")
+        print( "  -g, --not-goog-mail             goog-mail.py을 이용한 각 도메인에 대한 전자 메일 검색 해제")
+        print( "  -s, --not-subdomains          하위 도메인 재귀분석 해제( 하위 도메인 내부정보 손실 가능성 있음 ).")
+        print( "  -f, --create-pdf              모든 정보가 포함된 pdf 파일 작성.")
+        print( "  -l, --world-domination         전 세계 모든 국가의 모든 gov, mil,org 및 net 도메인을 검색")
+        print( "  -r, --robin-hood              발견된 MX 서버를 사용하여 발견된 모든 전자 메일에 pdf 보고서를 보냄.")
+        print( "  -w, --not-webcrawl             공용 웹의 잘못된 구성(디렉토리 목록 등)을 찾는 모든 웹 사이트(모든 포트, 웹 목록 등).")
+        print( "  -m, --max-amount-to-crawl       crawl을 이용한 각 웹사이트 최대 링크 수 지정. 기본값: 50.")
+        print( "  -F, --download-files           crawl 경우 모든 파일을 디스크에 다운로드하십시오..")
+        print( "  -c, --not-countrys           crawl 경우 모든 파일을 디스크에 다운로드.")
+        print( "  -C, --not-colors            컬러 출력 사용 안함.")
+        print( "  -q, --not-spf               SPF 레코드 확인 안 함.")
+        print( "  -k, --random-domains            구글에서 지정한 양만큼의 랜덤 도메인을 찾아서 분석. 기본 도메인의 경우 -d 명령어 사용 ")
+        print( "  -v, --ignore-host-pattern        활성 호스트를 찾고 포트 검색을 위해 nmap을 사용하는 경우 이 패턴과 일치하는 호스트를 무시. (, 사용하여 별도지정).")
+        print( "  -x, --nmap-scantype           포트 검사를 위한 Nmap 매개 변수. 기본값: '-O --reason --webxml --tratheroute -sS -sV -sC -PN -v -F'.")
+        print( "  -b, --robtex-domains            영역 전송이 활성화된 DNS 서버가 있는 경우 해당 DNS 서버를 사용하여 다른 UN 관련 도메인을 검색하고 분석.")
+        print( "  -B, --all-robtex           -b와 비슷하지만 영역 전송이 발견되지 않은 경우에도 하나의 기업 DNS 서버에 있는 모든 도메인을 분석하는 데 유용함. 또한 -b 포함.")
+        print( "  -K, --language-korea  한국어로 언어 변경")
+        print( "Press CTRL-C at any time to stop only the current step.")
+        sys.exit(1)
 
 
 def get_NS_records(domain):
@@ -337,36 +386,50 @@ def get_NS_records(domain):
     global geoip_cache
     global output_file_handler
     global countrys
+    global check_language
 
     hosttype={}
     reverseDNS={}
-    hostname={}    
+    hostname={}
     ip_registry=[]
 
 
     #
     # Here we obtain the NS servers for the domain
     #
-    try: 
+    try:
 
+        if check_language==True :
 
-        print( '\tChecking NameServers using system default resolver...')
+            print( '\tChecking NameServers using system default resolver...')
+        else :
+            print( '\t system default resolver 를 사용하여 NameServers 체크중...')
+
         if output_file!="":
-            output_file_handler.writelines('\tChecking NameServers using system default resolver...\n')
+            if check_language==True :
+                output_file_handler.writelines('\tChecking NameServers using system default resolver...\n')
+            else :
+                output_file_handler.writelines('\tsystem default resolver 를 사용하여 NameServers 체크중...\n')
         # Get the list of name servers IPs
         ns_servers = dns.resolver.query(domain, 'NS')
 
         if debug:
-            logging.debug('\t\t> There are {0} nameservers'.format(len(ns_servers)))
+            if check_language==True :
+                logging.debug('\t\t> There are {0} nameservers'.format(len(ns_servers)))
+            else :
+                logging.debug('\t\t>  {0} 의 name server 존재 '.format(len(ns_servers)))
 
         for rdata in ns_servers:
 
             if debug:
-                logging.debug('\t\t> Looking for {0} IP address'.format(rdata.to_text()))
-            # We search for the IP of each NSs    
+                if check_language==True :
+                    logging.debug('\t\t> Looking for {0} IP address'.format(rdata.to_text()))
+                else :
+                    logging.debug('\t\t> {0} 의 아이피 주소 찾는중...'.format(rdata.to_text()))
+            # We search for the IP of each NSs
             ip_list = dns.resolver.query(rdata.to_text()[:-1], 'A')
             # For each IP we store its information
-            
+
             for ip in ip_list:
                 ip_registry=[]
                 if debug:
@@ -374,7 +437,7 @@ def get_NS_records(domain):
 
                 try:
                     # If already exists this IP in the registry
-                    # We search for this IP in the main dict 
+                    # We search for this IP in the main dict
 
                     ip_registry=domain_data['IpsInfo'][ip.to_text()]
 
@@ -395,13 +458,19 @@ def get_NS_records(domain):
                     if not has_country and countrys:
                         # We don't have this country
                         if debug:
-                            logging.debug('\t\t> No country yet')
+                            if check_language==True :
+                                logging.debug('\t\t> No country yet')
+                            else :
+                                logging.debug('\t\t> 국가 정보 존재하지 않음.')
                         ipcountry={}
                         country=geoip_cache.country_name_by_addr(ip.to_text())
                         ipcountry['IpCountry']=country
                         ip_registry.append(ipcountry)
                         if debug:
-                            logging.debug('\t\t> Country: {0}'.format(country))
+                            if check_language==True :
+                                logging.debug('\t\t> Country: {0}'.format(country))
+                            else :
+                                logging.debug('\t\t> 국가: {0}'.format(country))
 
 
                     # Obtain Ip's reverse DNS name if we don't have it
@@ -460,14 +529,25 @@ def get_NS_records(domain):
 
 
     except Exception as inst:
-        logging.warning('\t\tWARNING! It seems that the NS server does not have an IP!')
+        if check_language==True :
+            logging.warning('\t\tWARNING! It seems that the NS server does not have an IP!')
+        else :
+            logging.warning('\t\t경고! NS 서버에 IP가 없음!')
         if output_file!="":
-            output_file_handler.writelines('\t\tWARNING! It seems that the NS server does not have an IP!\n')
+            if check_language==True :
+                output_file_handler.writelines('\t\tWARNING! It seems that the NS server does not have an IP!\n')
+            else :
+                output_file_handler.writelines('\t\t경고! NS 서버에 IP가 없음!\n')
         return -1
     except KeyboardInterrupt:
         try:
             # CTRL-C pretty handling.
-            print( "Keyboard Interruption!. Skiping the NS search step. Press CTRL-C again to exit.")
+            if check_language==True :
+
+                print( "Keyboard Interruption!. Skiping the NS search step. Press CTRL-C again to exit.")
+            else :
+                print( "키보드 중단! NS 검색 단계 건너뛰기. 종료하려면 CTRL-C를 다시 누르십시오.")
+
             time.sleep(1)
             return (2)
 
@@ -494,22 +574,29 @@ def get_MX_records(domain):
     global geoip_cache
     global output_file_handler
     global countrys
+    global check_language
 
     hosttype={}
     reverseDNS={}
-    hostname={}    
+    hostname={}
     ip_registry=[]
     #
     # Here we obtain the MX servers for the domain
     #
+    if check_language==True :
+        print( '\n\tChecking MailServers using system default resolver...')
+    else :
+        print( '\n\tsystem default resolver를 사용하여 MailServers 확인중 ...')
 
-    print( '\n\tChecking MailServers using system default resolver...')
     if output_file!="":
-        output_file_handler.writelines('\n\tChecking MailServers using system default resolver...\n')
+        if check_language==True :
+            output_file_handler.writelines('\n\tChecking MailServers using system default resolver...\n')
+        else :
+            output_file_handler.writelines('\n\tsystem default resolver를 사용하여 MailServers 확인중 ...\n')
     try:
         mail_servers = dns.resolver.query(domain, 'MX')
         for rdata in mail_servers:
-            # We search for the IP of each NSs    
+            # We search for the IP of each NSs
             ip_list = dns.resolver.query(rdata.exchange.to_text()[:-1], 'A')
             # For each IP we store its information
             for ip in ip_list:
@@ -517,8 +604,8 @@ def get_MX_records(domain):
 
                 try:
                     # If already exists this IP in the registry
-                    # We search for this IP in the main dict 
-                    
+                    # We search for this IP in the main dict
+
                     ip_registry=domain_data['IpsInfo'][ip.to_text()]
 
                     # Here we store the hostname in a dictionary. The index is 'HostName'
@@ -537,7 +624,10 @@ def get_MX_records(domain):
                     if not has_country and countrys:
                         # We don't have this country
                         if debug:
-                            logging.debug('\t\t> No country yet')
+                            if check_language==True :
+                                logging.debug('\t\t> No country yet')
+                            else :
+                                logging.debug('\t\t> 국가 정보 없음.')
                         ipcountry={}
                         country=geoip_cache.country_name_by_addr(ip.to_text())
                         ipcountry['IpCountry']=country
@@ -571,14 +661,17 @@ def get_MX_records(domain):
                     # If this is a new IP
                     ip_registry=[]
                     ipcountry={}
-            
+
                     if countrys:
                         # Do we have the country of this ip?
                         country=geoip_cache.country_name_by_addr(ip.to_text())
                         ipcountry['IpCountry']=country
                         ip_registry.append(ipcountry)
                         if debug:
-                            logging.debug('\t\t> Country: {0}'.format(country))
+                            if check_language==True :
+                                logging.debug('\t\t> Country: {0}'.format(country))
+                            else :
+                                logging.debug('\t\t> 국가: {0}'.format(country))
 
                     # Here we store the hostname in a dictionary. The index is 'HostName'
                     hostname['HostName']=rdata.exchange.to_text()[:-1]
@@ -602,9 +695,15 @@ def get_MX_records(domain):
                     printout(domain,ip.to_text(),0)
 
     except :
-        logging.warning('\t\tWARNING!! There are no MX records for this domain')
+        if check_language==True :
+            logging.warning('\t\tWARNING!! There are no MX records for this domain')
+        else :
+            logging.warning('\t\t경고!! 이 도메인에 대한 MX 레코드가 없음')
         if output_file!="":
-            output_file_handler.writelines('\t\tWARNING!! There are no MX records for this domain\n')
+            if check_language==True :
+                output_file_handler.writelines('\t\tWARNING!! There are no MX records for this domain\n')
+            else :
+                output_file_handler.writelines('\t\t경고!! 이 도메인에 대한 MX 레코드가 없음\n')
         return -1
 
 
@@ -631,17 +730,18 @@ def dns_request(domain):
     global geoip_cache
     global output_file_handler
     global countrys
+    global check_language
 
     try:
         hosttype={}
         reverseDNS={}
-        hostname={}    
+        hostname={}
         ip_registry=[]
 
 
         if check_common_hosts_names==False:
             common_hostnames=[]
-        
+
 
         elif use_common_list == True:
             common_hostnames=[]
@@ -657,7 +757,7 @@ def dns_request(domain):
         # Here we obtain the NS servers for the domain
         #
         get_NS_records(domain)
-        
+
         #
         # Here we obtain the MX servers for the domain
         #
@@ -669,25 +769,37 @@ def dns_request(domain):
         #
         try:
             wildcard_detect = dns.resolver.query('asdf80a98vrnwe9ufrcsajd90awe8ridsjkd.'+domain, 'A')
-            logging.warning('\t\tWARNING!! This domain has wildcards activated for hostnames resolution. We are checking "www" anyway, but perhaps it doesn\'t exists!')
+            if check_language==True :
+                logging.warning('\t\tWARNING!! This domain has wildcards activated for hostnames resolution. We are checking "www" anyway, but perhaps it doesn\'t exists!')
+            else :
+                logging.warning('\t\t경고!! 이 도메인은 호스트 이름 확인을 위해 활성화된 와일드카드를 가지고 있다. 어쨌든 우리는 "www"을 체크하고 있지만, 아마도 그것은 존재하지 않을 것이다!')
             if output_file!="":
-                output_file_handler.writelines('\t\tWARNING!! This domain has wildcards activated for hostnames resolution. We are checking "www" anyway, but perhaps it doesn\'t exists!\n')
-            
+                if check_language==True :
+                    output_file_handler.writelines('\t\tWARNING!! This domain has wildcards activated for hostnames resolution. We are checking "www" anyway, but perhaps it doesn\'t exists!\n')
+                else :
+                    output_file_handler.writelines('\t\t경고!! 이 도메인은 호스트 이름 확인을 위해 활성화된 와일드카드를 가지고 있다. 어쨌든 우리는 "www"을 체크하고 있지만, 아마도 그것은 존재하지 않을 것이다!\n')
             # If wildcard is activated we don't check common hostnames except for www, it is too common not to be there!
             common_hostnames=['www']
         except:
             # If wildcard is not activated we check every hostname
             pass
 
-    
+
         #
         # Here we check the zone transfer for each NS
         #
 
         if zone_transfer:
-            print( '\n\tChecking the zone transfer for each NS... (if this takes more than 10 seconds, just hit CTRL-C and it will continue. Bug in the libs)')
-            if output_file!="":
-                output_file_handler.writelines('\n\tChecking the zone transfer for each NS... (if this takes more than 10 seconds, just hit CTRL-C and it will continue. Bug in the libs)\n')
+            if check_language==True :
+                print( '\n\tChecking the zone transfer for each NS... (if this takes more than 10 seconds, just hit CTRL-C and it will continue. Bug in the libs)')
+            else :
+                print( '\n\t각 NS에 대한 영역 전송을 확인하는 중... (각 NS의 영역 전송 확인... (10초 이상 걸리면 CTRL-C를 누르자)')
+
+                if output_file!="":
+                    if check_language==True :
+                        output_file_handler.writelines('\n\tChecking the zone transfer for each NS... (if this takes more than 10 seconds, just hit CTRL-C and it will continue. Bug in the libs)\n')
+                    else :
+                        output_file_handler.writelines('\n\t각 NS에 대한 영역 전송을 확인하는 중... (각 NS의 영역 전송 확인... (10초 이상 걸리면 CTRL-C를 누르자)\n')
             try:
                 name_servers_list=[]
 
@@ -698,15 +810,24 @@ def dns_request(domain):
                                 name_servers_list.append(ip)
 
                 if debug:
-                    logging.debug('\t\t> Name server list: {0} '.format(name_servers_list))
+                    if check_language==True :
+                        logging.debug('\t\t> Name server list: {0} '.format(name_servers_list))
+                    else :
+                        logging.debug('\t\t> Name server 리스트: {0} '.format(name_servers_list))
 
                 # For each nameserver we check the zone transfer
                 for ip in name_servers_list:
                     try:
                         zone_transfer_data = dns.zone.from_xfr(dns.query.xfr(ip, domain,timeout=-1))
-                        logging.critical('\t\tZone transfer successful on name server {0} ({1} hosts)'.format(ip, len(zone_transfer_data.items())))
-                        if output_file!="":
-                            output_file_handler.writelines('\t\tZone transfer successful on name server {0} ({1} hosts)\n'.format(ip, len(zone_transfer_data.items())))
+                        if check_language==True :
+                            logging.critical('\t\tZone transfer successful on name server {0} ({1} hosts)'.format(ip, len(zone_transfer_data.items())))
+                        else :
+                            logging.critical('\t\tname server {0}에서 영역 전송 성공({1} 호스트)'.format(ip, len(zone_transfer_data.items())))
+                            if output_file!="":
+                                if check_language==True :
+                                    output_file_handler.writelines('\t\tZone transfer successful on name server {0} ({1} hosts)\n'.format(ip, len(zone_transfer_data.items())))
+                                else :
+                                    output_file_handler.writelines('\t\tname server {0}에서 영역 전송 성공({1} 호스트)\n'.format(ip, len(zone_transfer_data.items())))
                         # We should store this information in OS info or something...
                         ip_registry=[]
                         hosttype={}
@@ -719,30 +840,45 @@ def dns_request(domain):
                             hosttype['ZT']=len(zone_transfer_data.items())
                             ip_registry.append(hosttype)
                             if debug:
-                                logging.debug('\t\t> Storing ZT data for {0} : {1} hostnames: {2}'.format(ip,len(zone_transfer_data.items()),zone_transfer_data.keys()))
+                                if check_language==True :
+                                    logging.debug('\t\t> Storing ZT data for {0} : {1} hostnames: {2}'.format(ip,len(zone_transfer_data.items()),zone_transfer_data.keys()))
+                                else :
+                                    logging.debug('\t\t> {0}에 대한 ZT 데이터 저장 중: {1} 호스트 이름: {2}'.format(ip,len(zone_transfer_data.items()),zone_transfer_data.keys()))
                             # We store it in the main dictionary
                             a=[]
                             a=copy.deepcopy(ip_registry)
                             domain_data['IpsInfo'][ip]=a
                         except:
                             if debug:
-                                logging.warning('\t> WARNING! NS should be already stored in memory, and this one is not: {0}'.format(ip))
+                                if check_language==True :
+                                    logging.warning('\t> WARNING! NS should be already stored in memory, and this one is not: {0}'.format(ip))
+                                else :
+                                    logging.warning('\t> 경고! NS는 이미 메모리에 저장됬어야 하나, 이것은 그렇지 않다: {0}'.format(ip))
 
                         # If we found a zone transfer, we should not use the common_hostnames. It is enough with the zone! Thanks to Agustin Gugliotta
-                        common_hostnames = [] 
+                        common_hostnames = []
                         for host in zone_transfer_data:
                             #if not(host in common_hostnames) and not('@' in host.to_text())and not ( '*' in host.to_text()):
                             common_hostnames.append(host.to_text())
 
 
                     except:
-                        print( '\t\tNo zone transfer found on nameserver {0}'.format(ip))
-                        if output_file!="":
-                            output_file_handler.writelines('\t\tNo zone transfer found on nameserver {0}\n'.format(ip))
+                        if check_language==True :
+                            print( '\t\tNo zone transfer found on nameserver {0}'.format(ip))
+                        else :
+                            print( '\t\t네임 서버에서 영역 전송 없음 {0}'.format(ip))
+                            if output_file!="":
+                                if check_language==True :
+                                    output_file_handler.writelines('\t\tNo zone transfer found on nameserver {0}\n'.format(ip))
+                                else :
+                                    output_file_handler.writelines('\t\tname server {0}에서 영역 전송 없음\n'.format(ip))
             except KeyboardInterrupt:
                 try:
                     # CTRL-C pretty handling.
-                    print( "Keyboard Interruption!. Skiping the zone transfer step. Press CTRL-C again to exit.")
+                    if check_language==True :
+                        print( "Keyboard Interruption!. Skiping the zone transfer step. Press CTRL-C again to exit.")
+                    else :
+                        print( "키보드 중단! 영역 전송 단계를 건너뛰는 중. 종료하려면 CTRL-C를 다시 누르십시오..")
                     time.sleep(1)
                     return (2)
 
@@ -751,7 +887,7 @@ def dns_request(domain):
             except:
                 logging.warning('\t\tZone error?')
                 pass
-    
+
 
         #
         # Here we look for SPF record to obtain new IP address
@@ -759,20 +895,27 @@ def dns_request(domain):
         check_SPF_record(domain)
 
         #
-        # Here we check the A records of the hosts names, included de most common ones. 
+        # Here we check the A records of the hosts names, included de most common ones.
         # This function is called BEFORE the nmap sL scan, so that we can include every netblock in the sL scan.
         #
         check_A_records(domain,'most common')
-    
+
 
         #
         # Here we obtain the host names for each IP of every netblock using sL
         #
         if net_block:
-            print( '\n\tChecking with nmap the reverse DNS hostnames of every <ip>/24 netblock using system default resolver...')
-            if output_file!="":
-                output_file_handler.writelines('\n\tChecking with nmap the reverse DNS hostnames of every <ip>/24 netblock using system default resolver...\n')
-            try: 
+            if check_language==True :
+                print( '\n\tChecking with nmap the reverse DNS hostnames of every <ip>/24 netblock using system default resolver...')
+            else :
+                print( '\n\tnmap으로 시스템 기본 확인기를 사용하여 모든 <ip>/24 넷블록의 역 DNS 호스트 이름 확인중...')
+
+                if output_file!="":
+                    if check_language==True :
+                        output_file_handler.writelines('\n\tChecking with nmap the reverse DNS hostnames of every <ip>/24 netblock using system default resolver...\n')
+                    else :
+                        output_file_handler.writelines('\n\tnmap으로 시스템 기본 확인기를 사용하여 모든 <ip>/24 넷블록의 역 DNS 호스트 이름을 확인하는 중...\n')
+            try:
                 # We already check the common hostnames, this is just for the ones found by nmap sL
                 common_hostnames2=copy.deepcopy(common_hostnames)
                 common_hostnames=[]
@@ -796,16 +939,22 @@ def dns_request(domain):
                     if ip_net_block not in netblocks_checked:
 
                         if output_directory==False or not_store_nmap == 1:
-                            nmap_command_temp='nmap -sL -v '+ip_net_block+'/24' 
+                            nmap_command_temp='nmap -sL -v '+ip_net_block+'/24'
                         else:
                             try:
                                 os.mkdir(output_directory+'/nmap')
                             except OSError:
                                 pass
                             nmap_command_temp='nmap -sL -v '+ip_net_block+'/24 -oA '+output_directory+'/nmap/'+ip_net_block+'.sL'
-                        print( '\t\tChecking netblock {0}'.format(ip_net_block))
-                        if output_file!="":
-                            output_file_handler.writelines('\t\tChecking netblock {0}\n'.format(ip_net_block))
+                        if check_language==True :
+                            print( '\t\tChecking netblock {0}'.format(ip_net_block))
+                        else :
+                            print( '\t\t netblock 확인중 {0}'.format(ip_net_block))
+                            if output_file!="":
+                                if check_language==True :
+                                    output_file_handler.writelines('\t\tChecking netblock {0}\n'.format(ip_net_block))
+                                else :
+                                    output_file_handler.writelines('\t\tnetblock 확인중 {0}\n'.format(ip_net_block))
                         nmap_command=shlex.split(nmap_command_temp)
                         nmap_result_raw=Popen(nmap_command, stdout=PIPE).communicate()[0]
                         nmap_result=nmap_result_raw.split('\n')
@@ -813,8 +962,11 @@ def dns_request(domain):
                         netblocks_checked.append(ip_net_block)
                     else:
                         if debug:
-                            logging.debug('\t\t> Netblock {0} already resolved'.format(ip_net_block))
-                
+                            if check_language==True :
+                                logging.debug('\t\t> Netblock {0} already resolved'.format(ip_net_block))
+                            else :
+                                logging.debug('\t\t> Netblock {0} 이미 해결됨'.format(ip_net_block))
+
                     # Analyzing results
                     found=False
                     for i in nmap_result:
@@ -828,16 +980,22 @@ def dns_request(domain):
                                 common_hostnames.append(net_hostname)
                                 common_hostnames2.append(net_hostname)
                                 if debug:
-                                    logging.debug('\t\t\tNew host name {0} found in IP {1}'.format(net_hostname,ip))
+                                    if check_language==True :
+                                        logging.debug('\t\t\tNew host name {0} found in IP {1}'.format(net_hostname,ip))
+                                    else :
+                                        logging.debug('\t\t\tIP {1}에 새 호스트 이름 {0}이(가) 있음'.format(net_hostname,ip))
                                 found=True
 
                                 # Add this IP to the main dictionary, with its PTR record found
                                 try:
                                     # If already exists this IP in the registry
-                                    # We search for this IP in the main dict 
+                                    # We search for this IP in the main dict
                                     ip_registry=domain_data['IpsInfo'][ip]
                                     if debug:
-                                        logging.debug('\t\t\t\tThe IP {1} was not new, adding {0} as PTR if it not there.'.format(net_hostname,ip))
+                                        if check_language==True :
+                                            logging.debug('\t\t\t\tThe IP {1} was not new, adding {0} as PTR if it not there.'.format(net_hostname,ip))
+                                        else :
+                                            logging.debug('\t\t\t\tIP {1}이(가) 새 IP가 아니므로 {0}을(를) PTR에 없는 경우 PTR로 추가'.format(net_hostname,ip))
                                     # Do we have the country of this ip?
                                     has_country=False
                                     for dicts in ip_registry:
@@ -847,13 +1005,19 @@ def dns_request(domain):
                                     if not has_country and countrys:
                                         # We don't have this country
                                         if debug:
-                                            logging.debug('\t\t> No country yet')
+                                            if check_language==True :
+                                                logging.debug('\t\t> No country yet')
+                                            else :
+                                                logging.debug('\t\t> 국가 정보 없음')
                                         ipcountry={}
                                         country=geoip_cache.country_name_by_addr(ip.to_text())
                                         ipcountry['IpCountry']=country
                                         ip_registry.append(ipcountry)
                                         if debug:
-                                            logging.debug('\t\t> Country: {0}'.format(country))
+                                            if check_language==True :
+                                                logging.debug('\t\t> Country: {0}'.format(country))
+                                            else :
+                                                logging.debug('\t\t> 국가: {0}'.format(country))
 
                                     # Obtain Ip's reverse DNS name if we don't have it
                                     has_ptr=False
@@ -882,9 +1046,12 @@ def dns_request(domain):
                                     ip_registry=[]
                                     ipcountry={}
                                     if debug:
-                                        logging.debug('\t\t\t\tThe IP {1} was new, adding it, the country and {0} as PTR.'.format(net_hostname,ip))
+                                        if check_language==True :
+                                            logging.debug('\t\t\t\tThe IP {1} was new, adding it, the country and {0} as PTR.'.format(net_hostname,ip))
+                                        else :
+                                            logging.debug('\t\t\t\tIP {1}이(가) 새로 추가되었으며 국가 및 {0}을(를) PTR로 추가함'.format(net_hostname,ip))
 
-                                    
+
                                     if countrys:
                                         # Do we have the country of this ip?
                                         country=geoip_cache.country_name_by_addr(ip)
@@ -905,7 +1072,7 @@ def dns_request(domain):
 
 
                 #
-                # Here we check the A records of the hosts names found with nmap sL only. This function is called AFTER the nmap sL 
+                # Here we check the A records of the hosts names found with nmap sL only. This function is called AFTER the nmap sL
                 # scan, so that we can include every netblock in the sL scan.
                 #
 
@@ -915,7 +1082,10 @@ def dns_request(domain):
             except KeyboardInterrupt:
                 try:
                     # CTRL-C pretty handling.
-                    print( "Keyboard Interruption!. Skiping the netblock resolution step. Press CTRL-C again to exit.")
+                    if check_language==True :
+                        print( "Keyboard Interruption!. Skiping the netblock resolution step. Press CTRL-C again to exit.")
+                    else :
+                        print( "키보드 중단! 넷블록 해상도 단계 건너뛰기중. 종료하려면 CTRL-C를 다시 누르십시오..")
                     time.sleep(1)
                     return (2)
 
@@ -941,10 +1111,14 @@ def check_PTR_record(ip):
     """
     global debug
     global domain_data
+    global check_language
 
     try:
         if debug:
-            logging.debug('\t\t> Checking {0} ip reverse DNS hostname'.format(ip))
+            if check_language==True :
+                logging.debug('\t\t> Checking {0} ip reverse DNS hostname'.format(ip))
+            else :
+                logging.debug('\t\t> {0} IP 역방향 DNS 호스트 이름을 확인하는 중'.format(ip))
 
         temp_ip=ip.split('.')
         temp_ip.reverse()
@@ -977,14 +1151,21 @@ def check_SPF_record(domain):
     global check_spf
     global output_file
     global output_file_handler
+    global check_language
     reverseDNS={}
 
     if check_spf:
 
         try:
-            print('\n\tChecking SPF record...')
-            if output_file!="":
-                output_file_handler.writelines('\n\tChecking SPF record...\n')
+            if check_language==True :
+                print('\n\tChecking SPF record...')
+            else :
+                print('\n\t SPF record 확인중...')
+                if output_file!="":
+                    if check_language==True :
+                        output_file_handler.writelines('\n\tChecking SPF record...\n')
+                    else :
+                        output_file_handler.writelines('\n\tSPF record 확인중...\n')
 
             temp_spf = dns.resolver.query(domain, 'TXT')
 
@@ -994,8 +1175,10 @@ def check_SPF_record(domain):
                 if 'v=spf' in spf_record.to_text():
                     # We found a SPF record
                     if debug:
-                        print( '\t\t> SPf record found: {0}'.format(spf_record.to_text()))
-
+                        if check_language==True :
+                            print( '\t\t> SPf record found: {0}'.format(spf_record.to_text()))
+                        else :
+                            print( '\t\t> SPf record 확인: {0}'.format(spf_record.to_text()))
                     hosttype={}
                     ip_registry=[]
 
@@ -1008,9 +1191,15 @@ def check_SPF_record(domain):
                         if 'a:' in part:
                             # Extract new ip4 ips
                             hostname=part.split('a:')[1].split('.')[0]
-                            logging.error('\t\tNew hostname found: {0}'.format(hostname))
-                            if output_file!="":
-                                output_file_handler.writelines('\t\tNew hostname found: {0}\n'.format(hostname))
+                            if check_language==True :
+                                logging.error('\t\tNew hostname found: {0}'.format(hostname))
+                            else :
+                                logging.error('\t\t새로운 호스트이름 확인: {0}'.format(hostname))
+                                if output_file!="":
+                                    if check_language==True :
+                                        output_file_handler.writelines('\t\tNew hostname found: {0}\n'.format(hostname))
+                                    else :
+                                        output_file_handler.writelines('\t\t새로운 호스트이름 확인: {0}\n'.format(hostname))
                             # We found a hostname
                             common_hostnames.append(hostname)
 
@@ -1019,16 +1208,25 @@ def check_SPF_record(domain):
                             # Extract new ip4 ips
                             spf_domain=part.split('include:')[1]
                             if debug:
-                                logging.debug('\t\t> Included domain in SPF: {0}'.format(spf_domain))
+                                if check_language==True :
+                                    logging.debug('\t\t> Included domain in SPF: {0}'.format(spf_domain))
+                                else :
+                                    logging.debug('\t\t> SPF에 도메인 포함: {0}'.format(spf_domain))
                             check_SPF_record(spf_domain)
                         # Look for ip version 4 and 6 addresses
                         if 'ip' in part:
                             # Extract new ip4 ips
-                            try: 
+                            try:
                                 if '/' in part:
-                                    logging.warning('\t\tWARNING! SPF record allows an entire network to send mails. Probably an ISP network. We are not going to check the entire network by now: {0}, but only the network IP'.format(part.split('ip4')[1].split()[0][1:]))
-                                    if output_file!="":
-                                        output_file_handler.writelines('\t\tWARNING! SPF record allows an entire network to send mails. Probably an ISP network. We are not going to check the entire network by now: {0}, but only the network IP\n'.format(part.split('ip4')[1].split()[0][1:]))
+                                    if check_language==True :
+                                        logging.warning('\t\tWARNING! SPF record allows an entire network to send mails. Probably an ISP network. We are not going to check the entire network by now: {0}, but only the network IP'.format(part.split('ip4')[1].split()[0][1:]))
+                                    else :
+                                        logging.warning('\t\t경고! SPF 레코드는 전체 네트워크가 메일을 보낼 수 있도록 한다. 그러나 지금쯤 전체 네트워크를 확인하지 않고 {0} 네트워크 IP만 확인할 것이다'.format(part.split('ip4')[1].split()[0][1:]))
+                                        if output_file!="":
+                                            if check_language==True :
+                                                output_file_handler.writelines('\t\tWARNING! SPF record allows an entire network to send mails. Probably an ISP network. We are not going to check the entire network by now: {0}, but only the network IP\n'.format(part.split('ip4')[1].split()[0][1:]))
+                                            else :
+                                                output_file_handler.writelines('\t\t경고! SPF 레코드는 전체 네트워크가 메일을 보낼 수 있도록 한다. 그러나 지금쯤 전체 네트워크를 확인하지 않고 {0} 네트워크 IP만 확인할 것이다\n'.format(part.split('ip4')[1].split()[0][1:]))
                                     ip=part.split('ip4')[1].split()[0][1:].split('/')[0]
                                 else:
                                     if debug:
@@ -1050,9 +1248,15 @@ def check_SPF_record(domain):
 
                                 except KeyError:
                                     # If this is a new IP
-                                    logging.error('\t\tNew IP found: {0}'.format(ip))
-                                    if output_file!="":
-                                        output_file_handler.writelines('\t\tNew IP found: {0}\n'.format(ip))
+                                    if check_language==True :
+                                        logging.error('\t\tNew IP found: {0}'.format(ip))
+                                    else :
+                                        logging.error('\t\t새로운 IP 확인: {0}'.format(ip))
+                                        if output_file!="":
+                                            if check_language==True :
+                                                output_file_handler.writelines('\t\tNew IP found: {0}\n'.format(ip))
+                                            else :
+                                                output_file_handler.writelines('\t\t새로운 IP 확인: {0}\n'.format(ip))
                                     ip_registry=[]
 
                                     hosttype['Type']='SPF'
@@ -1072,14 +1276,26 @@ def check_SPF_record(domain):
 
                             except:
                                 # No ips in the SPF or ipv6 addresses
-                                logging.error('\t\t\tThere are no IPv4 addresses in the SPF. Maybe IPv6.')
-                                if output_file!="":
-                                    output_file_handler.writelines('\t\t\tThere are no IPv4 addresses in the SPF. Maybe IPv6.\n')
+                                if check_language==True :
+                                    logging.error('\t\t\tThere are no IPv4 addresses in the SPF. Maybe IPv6.')
+                                else :
+                                    logging.error('\t\t\tSPF에는 IPv4 주소가 없다. 아마도 IPv6일 것이다.')
+                                    if output_file!="":
+                                        if check_language==True :
+                                            output_file_handler.writelines('\t\t\tThere are no IPv4 addresses in the SPF. Maybe IPv6.\n')
+                                        else :
+                                            output_file_handler.writelines('\t\t\tSPF에는 IPv4 주소가 없다. 아마도 IPv6일 것이다.\n')
                                 continue
-        except :    
-            logging.error('\t\tNo SPF record')
+        except :
+            if check_language==True :
+                logging.error('\t\tNo SPF record')
+            else :
+                logging.error('\t\tSPF record 없음')
             if output_file!="":
-                output_file_handler.writelines('\t\tNo SPF record\n')
+                if check_language==True :
+                    output_file_handler.writelines('\t\tNo SPF record\n')
+                else :
+                    output_file_handler.writelines('\t\tSPF record 없음\n')
 
 
 
@@ -1105,11 +1321,11 @@ def check_A_records(domain,text=""):
     global geoip_cache
     global output_file_handler
     global countrys
-
+    global check_language
     try:
         hosttype={}
-        hostname={}    
-        ipcountry={}    
+        hostname={}
+        ipcountry={}
         ip_registry=[]
         reverseDNS={}
         first_ctrl_c=True
@@ -1119,22 +1335,31 @@ def check_A_records(domain,text=""):
         # Here we obtain the A records for the common host names using system default resolver
         #
 
-        # Making unique values of common_hostname vector            
+        # Making unique values of common_hostname vector
         unique_list=[]
         for i in common_hostnames:
             if i not in unique_list:
                 unique_list.append(i)
-        
-        print( '\n\tChecking {0} {1} hostnames using system default resolver...'.format(len(unique_list),text))
+
+        if check_language==True :
+            print( '\n\tChecking {0} {1} hostnames using system default resolver...'.format(len(unique_list),text))
+        else :
+            print( '\n\tsystem default resolver를 사용하여 {0} {1} hostnames 확인중...'.format(len(unique_list),text))
         if output_file!="":
-            output_file_handler.writelines('\n\tChecking {0} {1} hostnames using system default resolver...\n'.format(len(unique_list),text))
-        
-        # For each of the host names    
+            if check_language==True :
+                output_file_handler.writelines('\n\tChecking {0} {1} hostnames using system default resolver...\n'.format(len(unique_list),text))
+            else :
+                output_file_handler.writelines('\n\tsystem default resolver를 사용하여 {0} {1} hostnames 확인중...\n'.format(len(unique_list),text))
+
+        # For each of the host names
         for common_host in unique_list:
             try:
                 # We search host IP
                 if debug:
-                    logging.debug('\t> Checking {0} host'.format(common_host),)
+                    if check_language==True :
+                        logging.debug('\t> Checking {0} host'.format(common_host),)
+                    else :
+                        logging.debug('\t> {0} 호스트 확인중'.format(common_host),)
                 host_name_ips = dns.resolver.query(common_host+'.'+domain, 'A')
 
 
@@ -1146,7 +1371,10 @@ def check_A_records(domain,text=""):
                     try:
                         # If a host has a NS for its own, then we think its a subdomain
                         if debug:
-                            logging.debug('\t\t> Checking if {0} is a subdomain...'.format(common_host),)
+                            if check_language==True :
+                                logging.debug('\t\t> Checking if {0} is a subdomain...'.format(common_host),)
+                            else :
+                                logging.debug('\t\t> {0}이(가) 하위 도메인인지 확인하는 중...'.format(common_host),)
                         host_name_ns = dns.resolver.query(common_host+'.'+domain, 'NS')
 
                         # Almost sure it is a new subdomain. Now we confirm it. If it is not a CNAME, then it is really a subdomain and we add it
@@ -1161,7 +1389,7 @@ def check_A_records(domain,text=""):
                             # For example we avoid adding test.test.com
 
                             if common_host != domain.split('.')[0]:
-                                # We add the new subdomain for later analysis 
+                                # We add the new subdomain for later analysis
                                 ip_registry=[]
                                 subdomain={}
                                 for ip in host_name_ips:
@@ -1184,18 +1412,30 @@ def check_A_records(domain,text=""):
                                 subdomains_found.append(common_host+'.'+domain)
 
                             else:
-                                logging.warning('\t\tWARNING! Recursive domains detected. Not adding them to the check list.')
+                                if check_language==True :
+                                    logging.warning('\t\tWARNING! Recursive domains detected. Not adding them to the check list.')
+                                else :
+                                    logging.warning('\t\t경고! 재귀 도메인이 감지됨 검사 목록에 추가하지 않음.')
                                 if output_file!="":
-                                    output_file_handler.writelines('\t\tWARNING! Recursive domains detected. Not adding them to the check list.\n')
+                                    if check_language==True :
+                                        output_file_handler.writelines('\t\tWARNING! Recursive domains detected. Not adding them to the check list.\n')
+                                    else :
+                                        output_file_handler.writelines('\t\t경고! 재귀 도메인이 감지됨 검사 목록에 추가하지 않음.\n')
 
                     except:
                         if debug:
-                            logging.debug('\t\t> Host {0} is not a subdomain. Or its DNS is configured wrongly.'.format(common_host+'.'+domain))
+                            if check_language==True :
+                                logging.debug('\t\t> Host {0} is not a subdomain. Or its DNS is configured wrongly.'.format(common_host+'.'+domain))
+                            else :
+                                logging.debug('\t\t> 호스트 {0}은(는) 하위 도메인이 아니다. 또는 해당 DNS가 잘못 구성되었을 수도 있다.'.format(common_host+'.'+domain))
 
             except KeyboardInterrupt:
                 try:
                     # CTRL-C pretty handling.
-                    print( "Keyboard Interruption!. Skiping the hostname search step. Press CTRL-C quickly again to exit. Or wait 1 second and press CTRL-C again to continue.")
+                    if check_language==True :
+                        print( "Keyboard Interruption!. Skiping the hostname search step. Press CTRL-C quickly again to exit. Or wait 1 second and press CTRL-C again to continue.")
+                    else :
+                        print( "키보드 중단! 호스트 이름 검색 단계 건너뛰기중. CTRL-C를 다시 빨리 눌러 종료하십시오. 또는 1초 기다린 후 CTRL-C를 다시 눌러 계속하십시오..")
                     time.sleep(1)
                     if first_ctrl_c == True:
                         first_ctrl_c=False
@@ -1208,7 +1448,10 @@ def check_A_records(domain,text=""):
                     sys.exit(1)
             except:
                 if debug:
-                    logging.debug('\t\t> No ip found for {0} host'.format(common_host))
+                    if check_language==True :
+                        logging.debug('\t\t> No ip found for {0} host'.format(common_host))
+                    else :
+                        logging.debug('\t\t> {0} 호스트에서 아이피 확인 불가'.format(common_host))
                 continue
 
             # For each IP we store its information
@@ -1234,12 +1477,18 @@ def check_A_records(domain,text=""):
                         if not has_country and countrys:
                             # We don't have this country
                             if debug:
-                                logging.debug('\t\t> No country yet')
+                                if check_language==True :
+                                    logging.debug('\t\t> No country yet')
+                                else :
+                                    logging.debug('\t\t> 국가 정보 없음')
                             country=geoip_cache.country_name_by_addr(ip.to_text())
                             ipcountry['IpCountry']=country
                             ip_registry.append(ipcountry)
                             if debug:
-                                logging.debug('\t\t> Country: {0}'.format(country))
+                                if check_language==True :
+                                    logging.debug('\t\t> Country: {0}'.format(country))
+                                else :
+                                    logging.debug('\t\t> 국가: {0}'.format(country))
 
                         # Here we store the hostname in a dictionary. The index is 'HostName'
                         hostname['HostName']=common_host+'.'+domain
@@ -1295,7 +1544,10 @@ def check_A_records(domain,text=""):
                 except KeyboardInterrupt:
                     try:
                         # CTRL-C pretty handling.
-                        print( "Keyboard Interruption!. Skiping IP resolution step. Press CTRL-C again to exit.")
+                        if check_language==True :
+                            print( "Keyboard Interruption!. Skiping IP resolution step. Press CTRL-C again to exit.")
+                        else :
+                            print( "키보드 중단! IP 확인 단계 건너뛰기중. 종료하려면 CTRL-C를 다시 누르십시오..")
                         time.sleep(1)
                         return (2)
 
@@ -1311,7 +1563,10 @@ def check_A_records(domain,text=""):
     except KeyboardInterrupt:
         try:
             # CTRL-C pretty handling.
-            print( "Keyboard Interruption!. Skiping entire step. Press CTRL-C again to exit.")
+            if check_language==True :
+                print( "Keyboard Interruption!. Skiping entire step. Press CTRL-C again to exit.")
+            else :
+                print( "키보드 중단! 전체 단계 건너뛰기중. 종료하려면 CTRL-C를 다시 누르십시오..")
             time.sleep(1)
             return (2)
 
@@ -1328,6 +1583,7 @@ def find_and_analyze_random_domains(domain, amount):
     global domain_data
     global output_file
     global output_file_handler
+    global check_language
 
     try:
         import string
@@ -1338,9 +1594,15 @@ def find_and_analyze_random_domains(domain, amount):
         domain_dict={}
         counter=-1
         uniq_domains_web=""
-        logging.info('\tFinding {0} pseudo-random sub-domains to analyze in the {1} domain.\n'.format(amount,domain))
+        if check_language==True :
+            logging.info('\tFinding {0} pseudo-random sub-domains to analyze in the {1} domain.\n'.format(amount,domain))
+        else :
+            logging.info('\t{0} 도메인에서 분석할 {1}개의 의사 임의 하위 도메인 찾는중.\n'.format(domain,amount))
         if output_file!="":
-            output_file_handler.writelines('\tFinding {0} pseudo-random sub-domains to analyze in the {1} domain.\n'.format(amount,domain))
+            if check_language==True :
+                output_file_handler.writelines('\tFinding {0} pseudo-random sub-domains to analyze in the {1} domain.\n'.format(amount,domain))
+            else :
+                output_file_handler.writelines('\t{0} 도메인에서 분석할 {1}개의 의사 임의 하위 도메인 찾는중.\n'.format(domain,amount))
 
 
         # Extract the first dot if it exist
@@ -1349,7 +1611,7 @@ def find_and_analyze_random_domains(domain, amount):
 
         # Add slashes before every dot
         domain_re=domain.replace('.','\.')
-        
+
 
         # Initialize random seed
         random.seed()
@@ -1364,7 +1626,7 @@ def find_and_analyze_random_domains(domain, amount):
                 request_web.add_header('User-Agent','Mozilla/4.0 (compatible;MSIE 5.5; Windows NT 5.0)')
                 opener_web = urllib.request.build_opener()
                 text = opener_web.open(request_web).read()
-        
+
                 # This re extracts the domains
                 domains_web = (re.findall('(http:\/\/\w[\w\.\-]+\.'+domain_re+')',text))
 
@@ -1373,7 +1635,7 @@ def find_and_analyze_random_domains(domain, amount):
 
                 # For every domain found, we store them in a dictionary
                 for dom_web in domains_web:
-                    # 0 means not-analyzed    
+                    # 0 means not-analyzed
                     try:
                         # If it already existed... leave it
                         test_domain=domain_dict[dom_web]
@@ -1382,16 +1644,25 @@ def find_and_analyze_random_domains(domain, amount):
                         domain_dict[dom_web]=5
 
                 if debug:
-                    logging.debug('\tInformation found so far: {0}'.format(domain_dict))
+                    if check_language==True :
+                        logging.debug('\tInformation found so far: {0}'.format(domain_dict))
+                    else :
+                        logging.debug('\t지금까지 찾은 정보: {0}'.format(domain_dict))
 
                 # Warn about google limits...
                 if domain_dict == {}:
-                    logging.warning('\tWARNING! Something prevent us from obtaining results from google. Try again the same command until it succeed. If it does not work (because you use this feature many times) google could have blocked you for five minutes or so.')
+                    if check_language==True :
+                        logging.warning('\tWARNING! Something prevent us from obtaining results from google. Try again the same command until it succeed. If it does not work (because you use this feature many times) google could have blocked you for five minutes or so.')
+                    else :
+                        logging.warning('\t경고! 무언가가 우리가 구글에서 결과를 얻지 못하게 한다. 성공할 때까지 같은 명령을 다시 시도하십시오. 제대로 작동하지 않으면(여러 번 이 기능을 사용하기 때문에) Google이 5분 정도 사용자를 차단했을 수 있음.')
                     if output_file!="":
-                        output_file_handler.writelines('\tWARNING! Something prevent us from obtaining results from google. Try again the same command until it succeed1. If it does not work (because you use this feature many times) google could have blocked you for five minutes or so.\n')
+                        if check_language==True :
+                            output_file_handler.writelines('\tWARNING! Something prevent us from obtaining results from google. Try again the same command until it succeed1. If it does not work (because you use this feature many times) google could have blocked you for five minutes or so.\n')
+                        else :
+                            output_file_handler.writelines('\t경고! 무언가가 우리가 구글에서 결과를 얻지 못하게 한다. 성공할 때까지 같은 명령을 다시 시도하십시오. 제대로 작동하지 않으면(여러 번 이 기능을 사용하기 때문에) Google이 5분 정도 사용자를 차단했을 수 있음.\n')
                     return -1
 
-                
+
                 # For every domain found, verify it.
                 for uniq_domains_web in domain_dict.keys():
                     if 'http://' in uniq_domains_web:
@@ -1424,23 +1695,34 @@ def find_and_analyze_random_domains(domain, amount):
                         temp_final=final_dict[uniq_domains_web]
                     except:
                         # Store it
-                        # 0 means not-analyzed    
+                        # 0 means not-analyzed
                         final_dict[uniq_domains_web]=0
 
                 if final_dict == []:
-                    print( '\tNo more domains found')
+                    if check_language==True :
+                        print( '\tNo more domains found')
+                    else :
+                        print( '\t도메인을 더 이상 찾을 수 없음')
                     if output_file!="":
-                        output_file_handler.writelines('\tNo more domains found\n')
+                        if check_language==True :
+                            output_file_handler.writelines('\tNo more domains found\n')
+                        else :
+                            output_file_handler.writelines('\t도메인을 더 이상 찾을 수 없음\n')
                     return (1)
 
 
                 # How much domains we got?
                 counter=len(final_dict.keys())
-
-                logging.info('\tWe found these domains in this first search:')
+                if check_language==True :
+                    logging.info('\tWe found these domains in this first search:')
+                else :
+                    logging.info('\t첫번째 검색으로 찾은 도메인들:')
                 if output_file!="":
-                    output_file_handler.writelines('\tWe found these domains in this first search:\n')
-                    
+                    if check_language==True :
+                        output_file_handler.writelines('\tWe found these domains in this first search:\n')
+                    else :
+                        output_file_handler.writelines('\t첫번째 검색으로 찾은 도메인들:\n')
+
                 for i in final_dict:
                     logging.info('\t\t{0}'.format(i))
                     if output_file!="":
@@ -1448,7 +1730,10 @@ def find_and_analyze_random_domains(domain, amount):
 
                 for i in final_dict:
                     if debug:
-                        logging.debug('\t> Domain to analyze next: {0} in {1}. Amount={2}'.format(i,final_dict, amount))
+                        if check_language==True :
+                            logging.debug('\t> Domain to analyze next: {0} in {1}. Amount={2}'.format(i,final_dict, amount))
+                        else :
+                            logging.debug('\t>다음으로 분석할 도메인: {1}의 {0}. 분석할 갯수={2}'.format(final_dict,i, amount))
 
                     # If we still have to check domains...
                     if amount:
@@ -1458,7 +1743,10 @@ def find_and_analyze_random_domains(domain, amount):
                             final_dict[i]=1
                         amount = amount - 1
                         if debug:
-                            logging.debug('\t\tDomains analyzed so far: {0}'.format(final_dict))
+                            if check_language==True :
+                                logging.debug('\t\tDomains analyzed so far: {0}'.format(final_dict))
+                            else :
+                                logging.debug('\t\t지금까지 분석된 도메인: {0}'.format(final_dict))
                 print( '3')
 
 
@@ -1468,9 +1756,15 @@ def find_and_analyze_random_domains(domain, amount):
                 print( inst       )    # __str__ allows args to printed directly
 
             except IOError:
-                logging.error('\t> Can\'t connect to Google Web! maybe the page number {0} does not exist?'.format(page_counter_web))
+                if check_language==True :
+                    logging.error('\t> Can\'t connect to Google Web! maybe the page number {0} does not exist?'.format(page_counter_web))
+                else :
+                    logging.error('\t> Google 웹에 연결할 수 없음! {0} 페이지 번호가 존재하지 않는가?'.format(page_counter_web))
                 if output_file!="":
-                    output_file_handler.writelines('\t> Can\'t connect to Google Web! maybe the page number {0} does not exist?'.format(page_counter_web))
+                    if check_language==True :
+                        output_file_handler.writelines('\t> Can\'t connect to Google Web! maybe the page number {0} does not exist?'.format(page_counter_web))
+                    else :
+                        output_file_handler.writelines('\t>  Google 웹에 연결할 수 없음! {0} 페이지 번호가 존재하지 않는가?'.format(page_counter_web))
 
 
 
@@ -1484,13 +1778,14 @@ def find_and_analyze_random_domains(domain, amount):
 
 def check_domain_emails(domain):
     """
-    This function implements the goog-mail.py program that was once included in backtrack 2. We don't know who the author was but we thanks him/her and 
+    This function implements the goog-mail.py program that was once included in backtrack 2. We don't know who the author was but we thanks him/her and
     we give him/her the credit for it
     """
     global debug
     global domain_data
     global output_file
     global output_file_handler
+    global check_language
 
     def StripTags(text):
         finished = 0
@@ -1509,9 +1804,16 @@ def check_domain_emails(domain):
         import http.client
         import urllib.request
         import re
-        print( '\n\tSearching for {0} emails in Google'.format(domain))
+
+        if check_language==True :
+            print( '\n\tSearching for {0} emails in Google'.format(domain))
+        else :
+            print( '\n\t구글에서 {0} 이메일 검색중'.format(domain))
         if output_file!="":
-            output_file_handler.writelines('\n\tSearching for {0} emails in Google\n'.format(domain))
+            if check_language==True :
+                output_file_handler.writelines('\n\tSearching for {0} emails in Google\n'.format(domain))
+            else :
+                output_file_handler.writelines('\n\t구글에서 {0} 이메일 검색중\n'.format(domain))
         d={}
         page_counter = 0
         try:
@@ -1527,7 +1829,10 @@ def check_domain_emails(domain):
                     uniq_emails=d.keys()
                 page_counter = page_counter + 10
         except IOError:
-            logging.debug("\t> Can't connect to Google Groups!"+"")
+            if check_language==True :
+                logging.debug("\t> Can't connect to Google Groups!"+"")
+            else :
+                logging.debug("\t> Google 그룹에 연결할 수 없음!"+"")
         page_counter_web=0
         try:
             while page_counter_web < 50 :
@@ -1542,7 +1847,10 @@ def check_domain_emails(domain):
                     uniq_emails_web=d.keys()
                 page_counter_web = page_counter_web + 10
         except IOError:
-            logging.debug("\t> Can't connect to Google Web!"+"")
+            if check_language==True :
+                logging.debug("\t> Can't connect to Google Web!"+"")
+            else :
+                logging.debug("\t> Google 그룹에 연결할 수 없음!"+"")
         for uniq_emails_web in d.keys():
             # Just adds a warning if the emails is more thatn 20 characters long. Not in the original goog-mail.py
             if len(uniq_emails_web.split('@')[0]) >= 20:
@@ -1574,7 +1882,10 @@ def check_domain_emails(domain):
     except KeyboardInterrupt:
         try:
             # CTRL-C pretty handling.
-            print( "Keyboard Interruption!. Skiping the mail check step. Press CTRL-C again to exit.")
+            if check_language==True :
+                print( "Keyboard Interruption!. Skiping the mail check step. Press CTRL-C again to exit.")
+            else :
+                print( "키보드 중단! 메일 확인 단계 건너뛰기중. 종료하려면 CTRL-C를 다시 누르십시오..")
             time.sleep(1)
             return (2)
         except KeyboardInterrupt:
@@ -1590,10 +1901,18 @@ def check_active_host():
     global output_file
     global output_file_handler
     global ignore_host_pattern
+    global check_language
     hostup={}
-    print( '\n\tChecking {0} active hosts using nmap... (nmap -sn -n -v -PP -PM -PS80,25 -PA -PY -PU53,40125 -PE --reason <ip> -oA <output_directory>/nmap/<ip>.sn)'.format(len(domain_data['IpsInfo'])))
+
+    if check_language==True :
+        print( '\n\tChecking {0} active hosts using nmap... (nmap -sn -n -v -PP -PM -PS80,25 -PA -PY -PU53,40125 -PE --reason <ip> -oA <output_directory>/nmap/<ip>.sn)'.format(len(domain_data['IpsInfo'])))
+    else :
+        print( '\n\tnmap을 사용하여 {0} 개의 활성 호스트를 확인하는 중...  (nmap -sn -n -v -PP -PM -PS80,25 -PA -PY -PU53,40125 -PE --reason <ip> -oA <output_directory>/nmap/<ip>.sn)'.format(len(domain_data['IpsInfo'])))
     if output_file!="":
-        output_file_handler.writelines('\n\tChecking {0} active hosts using nmap... (nmap -sn -n -v -PP -PM -PS80,25 -PA -PY -PU53,40125 -PE --reason <ip> -oA <output_directory>/nmap/<ip>.sn)\n'.format(len(domain_data['IpsInfo'])))
+        if check_language==True :
+            output_file_handler.writelines('\n\tChecking {0} active hosts using nmap... (nmap -sn -n -v -PP -PM -PS80,25 -PA -PY -PU53,40125 -PE --reason <ip> -oA <output_directory>/nmap/<ip>.sn)\n'.format(len(domain_data['IpsInfo'])))
+        else :
+            output_file_handler.writelines('\n\tnmap을 사용하여 {0} 개의 활성 호스트를 확인하는 중... (nmap -sn -n -v -PP -PM -PS80,25 -PA -PY -PU53,40125 -PE --reason <ip> -oA <output_directory>/nmap/<ip>.sn)\n'.format(len(domain_data['IpsInfo'])))
     try:
         # For each ip, nmap it
         for ip in domain_data['IpsInfo']:
@@ -1608,7 +1927,10 @@ def check_active_host():
                             for pattern in ignore_host_pattern.split(','):
                                 if pattern in dict['HostName']:
                                     ignore=True
-                                    print('\t\tPattern: {0}, Hostname: {1}. Ignoring!'.format(pattern,dict['HostName']))
+                                    if check_language==True :
+                                        print('\t\tPattern: {0}, Hostname: {1}. Ignoring!'.format(pattern,dict['HostName']))
+                                    else :
+                                        print('\t\t패턴: {0}, Hostname: {1}. 무시중!'.format(pattern,dict['HostName']))
                                     break
             if not ignore:
                 # If no output directory was selected, do not store nmap output
@@ -1632,7 +1954,10 @@ def check_active_host():
                     domain_data['IpsInfo'][ip]=a
                     logging.debug('\t\tHost {0} is up ({1})'.format(ip,reason))
                     if output_file!="":
-                        output_file_handler.writelines('\t\tHost {0} is up ({1})\n'.format(ip,reason))
+                        if check_language==True :
+                            output_file_handler.writelines('\t\tHost {0} is up ({1})\n'.format(ip,reason))
+                        else :
+                            output_file_handler.writelines('\t\t호스트 {0}이(가) 작동됨({1})\n'.format(ip,reason))
                 else:
                     hostup['HostUp']="False"
                     ip_registry.append(hostup)
@@ -1640,9 +1965,14 @@ def check_active_host():
                     a=[]
                     a=copy.deepcopy(ip_registry)
                     domain_data['IpsInfo'][ip]=a
-                    print( '\t\tHost {0} is down'.format(ip))
+                    if check_language==True :
+                        print( '\t\tHost {0} is down'.format(ip))\
+
                     if output_file!="":
-                        output_file_handler.writelines('\t\tHost {0} is down\n'.format(ip))
+                        if check_language==True :
+                            output_file_handler.writelines('\t\tHost {0} is down\n'.format(ip))
+                        else :
+                            output_file_handler.writelines('\t\t호스트 {0} 이 중단됨\n'.format(ip))
     except Exception as inst:
         print( type(inst)  )   # the exception instance
         print( inst.args   )   # arguments stored in .args
@@ -1653,7 +1983,10 @@ def check_active_host():
     except KeyboardInterrupt:
         try:
             # CTRL-C pretty handling.
-            print( "Keyboard Interruption!. Skiping the active hosts test step. Press CTRL-C again to exit.")
+            if check_language==True :
+                print( "Keyboard Interruption!. Skiping the active hosts test step. Press CTRL-C again to exit.")
+            else :
+                print( "키보드 중단! 활성 호스트 테스트 단계 건너뛰기중. 종료하려면 CTRL-C를 다시 누르십시오.")
             time.sleep(1)
             return (2)
         except KeyboardInterrupt:
@@ -1672,14 +2005,25 @@ def host_info(domain):
     global zenmap
     global output_file
     global output_file_handler
-    print( '\n\tChecking ports on every active host using nmap... (nmap '+nmap_scantype+' <ip> -oA <output_directory>/nmap/<ip>)')
+    global check_language
+
+    if check_language==True :
+        print( '\n\tChecking ports on every active host using nmap... (nmap '+nmap_scantype+' <ip> -oA <output_directory>/nmap/<ip>)')
+    else :
+        print( '\n\tnmap을 사용하여 모든 활성 호스트의 포트 확인중... (nmap '+nmap_scantype+' <ip> -oA <output_directory>/nmap/<ip>)')
     if output_file!="":
-        output_file_handler.writelines('\n\tChecking ports on every active host using nmap... (nmap '+nmap_scantype+'  <ip> -oA <output_directory>/nmap/<ip>)\n')
+        if check_language==True :
+            output_file_handler.writelines('\n\tChecking ports on every active host using nmap... (nmap '+nmap_scantype+'  <ip> -oA <output_directory>/nmap/<ip>)\n')
+        else :
+            output_file_handler.writelines('\n\tnmap을 사용하여 모든 활성 호스트의 포트 확인중... (nmap '+nmap_scantype+'  <ip> -oA <output_directory>/nmap/<ip>)\n')
     try:
         # For each ip, nmap it
         for ip in domain_data['IpsInfo']:
             if debug:
-                logging.debug('\t\tChecking ip {0}'.format(ip))
+                if check_language==True :
+                    logging.debug('\t\tChecking ip {0}'.format(ip))
+                else :
+                    logging.debug('\t\t {0} ip 확인중'.format(ip))
             hostports={}
             scriptinfo={}
             hostos={}
@@ -1696,13 +2040,19 @@ def host_info(domain):
                     if 'HostUp' in dicts:
                         # Only scan active hosts
                         if 'True' in dicts['HostUp']:
-                            print( '\t\tScanning ip {0} ({1}):'.format(ip,host_name))
+                            if check_language==True :
+                                print( '\t\tScanning ip {0} ({1}):'.format(ip,host_name))
+                            else :
+                                print( '\t\tIP {0} 검색중({1}):'.format(ip,host_name))
                             if output_file!="":
-                                output_file_handler.writelines('\t\tScanning ip {0} ({1}):\n'.format(ip,host_name))
+                                if check_language==True :
+                                    output_file_handler.writelines('\t\tScanning ip {0} ({1}):\n'.format(ip,host_name))
+                                else :
+                                    output_file_handler.writelines('\t\tIP {0} 검색중({1}):\n'.format(ip,host_name))
 
                             # If no output directory was selected, do not store nmap output
                             if output_directory==False or not_store_nmap == 1:
-                                    nmap_command_temp='nmap '+nmap_scantype+' ' + ip 
+                                    nmap_command_temp='nmap '+nmap_scantype+' ' + ip
                             else:
                                 try:
                                     os.mkdir(output_directory+'/nmap')
@@ -1740,10 +2090,10 @@ def host_info(domain):
                                             logging.warning('\t\t\t{0}'.format(line))
                                         if output_file!="":
                                             output_file_handler.writelines('\t\t\t{0}\n'.format(line))
-                                        # Store the port info 
+                                        # Store the port info
                                         hostports['PortInfo']=line
                                         b={}
-                                        b=copy.deepcopy(hostports)    
+                                        b=copy.deepcopy(hostports)
                                         ip_registry.append(b)
                                         # We store it in the main dictionary
                                         a=[]
@@ -1752,7 +2102,10 @@ def host_info(domain):
                                     # Are we yet in the script section?
                                     elif '|' in line:
                                         if debug:
-                                            logging.info('\t\t\t> Script Line readed from nmap_result: {0}'.format(line))
+                                            if check_language==True :
+                                                logging.info('\t\t\t> Script Line readed from nmap_result: {0}'.format(line))
+                                            else :
+                                                logging.info('\t\t\t> nmap_result에서 읽은 스크립트 라인: {0}'.format(line))
                                         if critical:
                                             logging.error('\t\t\t\t{0}'.format(line))
                                             if output_file!="":
@@ -1763,7 +2116,7 @@ def host_info(domain):
                                                 output_file_handler.writelines('\t\t\t\t{0}\n'.format(line))
                                         scriptinfo['ScriptInfo']=line
                                         b={}
-                                        b=copy.deepcopy(scriptinfo)    
+                                        b=copy.deepcopy(scriptinfo)
                                         ip_registry.append(b)
                                         # We store it in the main dictionary
                                         a=[]
@@ -1776,7 +2129,7 @@ def host_info(domain):
                                         output_file_handler.writelines('\t\t\tOS Info: {0}\n'.format(line))
                                     hostos['OsInfo']=line.split('Service Info:')[1]
                                     b={}
-                                    b=copy.deepcopy(hostos)    
+                                    b=copy.deepcopy(hostos)
                                     ip_registry.append(b)
                                     # We store it in the main dictionary
                                     a=copy.deepcopy(ip_registry)
@@ -1796,18 +2149,24 @@ def host_info(domain):
             except KeyboardInterrupt:
                 try:
                     # CTRL-C pretty handling.
-                    print( "Keyboard Interruption!. Skiping this IP, going to the next.... Press CTRL-C again to move to the next check.")
+                    if check_language==True :
+                        print( "Keyboard Interruption!. Skiping this IP, going to the next.... Press CTRL-C again to move to the next check.")
+                    else :
+                        print( "키보드 중단! 이 IP를 건너뛰고 다음 항목으로 이동... 다음 검사로 이동하려면 CTRL-C를 다시 누르십시오..")
                     time.sleep(1)
                     continue
                 except KeyboardInterrupt:
                     try:
                         # CTRL-C pretty handling.
-                        print( "Keyboard Interruption!. Skiping port scanning section. Press CTRL-C again to exit.")
+                        if check_language==True :
+                            print( "Keyboard Interruption!. Skiping port scanning section. Press CTRL-C again to exit.")
+                        else :
+                            print( "키보드 중단! 포트 검색 섹션 건너뛰기중. 종료하려면 CTRL-C를 다시 누르십시오..")
                         time.sleep(1)
                         return(1)
                     except KeyboardInterrupt:
                         sys.exit(1)
-        # End for    
+        # End for
     except Exception as inst:
         print( type(inst) )    # the exception instance
         print( inst.args  )    # arguments stored in .args
@@ -1818,7 +2177,10 @@ def host_info(domain):
     except KeyboardInterrupt:
         try:
             # CTRL-C pretty handling.
-            print( "Keyboard Interruption!. Skiping the port scanning step. Press CTRL-C again to exit.")
+            if check_language==True :
+                print( "Keyboard Interruption!. Skiping the port scanning step. Press CTRL-C again to exit.")
+            else :
+                print( "키보드 중단! 포트 검색 단계 건너뛰기중. 종료하려면 CTRL-C를 다시 누르십시오..")
             time.sleep(1)
             return (2)
 
@@ -1838,28 +2200,45 @@ def printout(domain,ip,option):
     global output_directory
     global create_pdf
     global output_file_handler
+    global check_language
     ip_vect=[]
     try:
-        
+
         # If option = 1 we print all the data extracted
         if option==1:
-            logging.debug('--Finished--')
-            logging.info('Summary information for domain '+domain)
-            logging.info('-----------------------------------------')
+            if check_language==True :
+                logging.debug('--Finished--')
+                logging.info('Summary information for domain '+domain)
+                logging.info('-----------------------------------------')
+            else :
+                logging.debug('--종료--')
+                logging.info('도메인에 대한 요약 정보 '+domain)
+                logging.info('-----------------------------------------')
 
-            # We store information for statistics 
+            # We store information for statistics
 
             if output_directory!=False:
-                output_file_handler.writelines('\n\n--Finished--\n')
-                output_file_handler.writelines('Summary information for domain '+domain+'\n')
-                output_file_handler.writelines('-----------------------------------------\n')
-            
+                if check_language==True :
+                    output_file_handler.writelines('\n\n--Finished--\n')
+                    output_file_handler.writelines('Summary information for domain '+domain+'\n')
+                    output_file_handler.writelines('-----------------------------------------\n')
+                else :
+                    output_file_handler.writelines('\n\n--종료--\n')
+                    output_file_handler.writelines('도메인에 대한 요약 정보 '+domain+'\n')
+                    output_file_handler.writelines('-----------------------------------------\n')
+
             # Print information for the domain first
             if len(domain_data['DomainInfo'])!=0:
 
-                print( '\tDomain Specific Information:')
+                if check_language==True :
+                    print( '\tDomain Specific Information:')
+                else :
+                    print( '\t도메인 별 정보:')
                 if output_file!="":
-                    output_file_handler.writelines('\tDomain Specific Information:\n')
+                    if check_language==True :
+                        output_file_handler.writelines('\tDomain Specific Information:\n')
+                    else :
+                        output_file_handler.writelines('\t도메인 별 정보:\n')
 
                 for domdata in domain_data['DomainInfo']:
                     # We print the emails found for this domain
@@ -1868,11 +2247,16 @@ def printout(domain,ip,option):
                         if output_file!="":
                             output_file_handler.writelines('\t\tEmail: {0}\n'.format(domdata.get('Email')))
 
-
-            print( '\n\tDomain Ips Information:')
+            if check_language==True :
+                print( '\n\tDomain Ips Information:')
+            else :
+                print( '\n\t도메인 Ips 정보:')
             if output_file!="":
-                output_file_handler.writelines('\n\tDomain Ips Information:\n')
-        
+                if check_language==True :
+                    output_file_handler.writelines('\n\tDomain Ips Information:\n')
+                else :
+                    output_file_handler.writelines('\n\t도메인 Ips 정보:\n')
+
 
             # For each IP in the main dictionary
             for ip in domain_data['IpsInfo']:
@@ -1886,33 +2270,69 @@ def printout(domain,ip,option):
                 for dicts in ip_vect:
                     if 'PTR' in dicts:
                         if dicts.get('PTR') != hostname:
-                            logging.warning('\t\t\tHostName: {0}\t\t\tType: PTR'.format(dicts.get('PTR')))
+                            if check_language==True :
+                                logging.warning('\t\t\tHostName: {0}\t\t\tType: PTR'.format(dicts.get('PTR')))
+                            else :
+                                logging.warning('\t\t\t호스트 이름: {0}\t\t\t타입: PTR'.format(dicts.get('PTR')))
                             if output_file!="":
-                                output_file_handler.writelines('\t\t\tHostName: {0}\t\t\tType: PTR\n'.format(dicts.get('PTR')))
+                                if check_language==True :
+                                    output_file_handler.writelines('\t\t\tHostName: {0}\t\t\tType: PTR\n'.format(dicts.get('PTR')))
+                                else :
+                                    output_file_handler.writelines('\t\t\t호스트 이름: {0}\t\t\t타입: PTR\n'.format(dicts.get('PTR')))
                         else:
-                            print( '\t\t\tHostName: {0}\t\t\tType: PTR'.format(dicts.get('PTR')))
+                            if check_language==True :
+                                print( '\t\t\tHostName: {0}\t\t\tType: PTR'.format(dicts.get('PTR')))
+                            else :
+                                print( '\t\t\t호스트 이름: {0}\t\t\t타입: PTR'.format(dicts.get('PTR')))
                             if output_file!="":
-                                output_file_handler.writelines('\t\t\tHostName: {0}\t\t\tType: PTR\n'.format(dicts.get('PTR')))
+                                if check_language==True :
+                                    output_file_handler.writelines('\t\t\tHostName: {0}\t\t\tType: PTR\n'.format(dicts.get('PTR')))
+                                else :
+                                    output_file_handler.writelines('\t\t\t호스트 이름: {0}\t\t\t타입: PTR\n'.format(dicts.get('PTR')))
                     if 'HostName' in dicts:
-                        print( '\t\t\tHostName: {0}'.format(dicts.get('HostName')),)
+                        if check_language==True :
+                            print( '\t\t\tHostName: {0}'.format(dicts.get('HostName')),)
+                        else :
+                            print( '\t\t\t호스트 이름: {0}'.format(dicts.get('HostName')),)
                         hostname=dicts.get('HostName')
                         if output_file!="":
-                            output_file_handler.writelines('\t\t\tHostName: {0}'.format(dicts.get('HostName')))
+                            if check_language==True :
+                                output_file_handler.writelines('\t\t\tHostName: {0}'.format(dicts.get('HostName')))
+                            else :
+                                output_file_handler.writelines('\t\t\t호스트 이름: {0}'.format(dicts.get('HostName')))
                     if 'Type' in dicts:
-                        print( '\t\t\tType: {0}'.format(dicts.get('Type')))
+                        if check_language==True :
+                            print( '\t\t\tType: {0}'.format(dicts.get('Type')))
+                        else :
+                            print( '\t\t\t타입: {0}'.format(dicts.get('Type')))
                         if output_file!="":
-                            output_file_handler.writelines('\t\t\tType: {0}\n'.format(dicts.get('Type')))
+                            if check_language==True :
+                                output_file_handler.writelines('\t\t\tType: {0}\n'.format(dicts.get('Type')))
+                            else :
+                                output_file_handler.writelines('\t\t\t타입: {0}\n'.format(dicts.get('Type')))
                     if 'SubDomain' in dicts:
-                        logging.error('\t\t\tSub Domain: {0}'.format(dicts['SubDomain']))
+                        if check_language==True :
+                            logging.error('\t\t\tSub Domain: {0}'.format(dicts['SubDomain']))
+                        else :
+                            logging.error('\t\t\t서브 도메인: {0}'.format(dicts['SubDomain']))
                         if output_file!="":
-                            output_file_handler.writelines('\t\t\tSub Domain: {0}\n'.format(dicts.get('SubDomain')))
+                            if check_language==True :
+                                output_file_handler.writelines('\t\t\tSub Domain: {0}\n'.format(dicts.get('SubDomain')))
+                            else :
+                                output_file_handler.writelines('\t\t\t서브 도메인: {0}\n'.format(dicts.get('SubDomain')))
 
                 # These things are just once for ip
                 for dicts in ip_vect:
                     if 'IpCountry' in dicts:
-                        logging.info('\t\t\tCountry: {0}'.format(dicts.get('IpCountry')))
+                        if check_language==True :
+                            logging.info('\t\t\tCountry: {0}'.format(dicts.get('IpCountry')))
+                        else :
+                            logging.info('\t\t\t국가: {0}'.format(dicts.get('IpCountry')))
                         if output_file!="":
-                            output_file_handler.writelines('\t\t\tCountry: {0}\n'.format(dicts.get('IpCountry')))
+                            if check_language==True :
+                                output_file_handler.writelines('\t\t\tCountry: {0}\n'.format(dicts.get('IpCountry')))
+                            else :
+                                output_file_handler.writelines('\t\t\t국가: {0}\n'.format(dicts.get('IpCountry')))
                     if 'HostUp' in dicts:
                         logging.info('\t\t\tIs Active: {0}'.format(dicts.get('HostUp')))
                         if output_file!="":
@@ -1925,46 +2345,96 @@ def printout(domain,ip,option):
                                 critical=False
 
                         if critical:
-                            logging.error('\t\t\tPort: {0}'.format(dicts.get('PortInfo')))
+                            if check_language==True :
+                                logging.error('\t\t\tPort: {0}'.format(dicts.get('PortInfo')))
+                            else :
+                                logging.error('\t\t\t포트: {0}'.format(dicts.get('PortInfo')))
                             if output_file!="":
-                                output_file_handler.writelines('\t\t\tPort: {0}\n'.format(dicts.get('PortInfo')))
+                                if check_language==True :
+                                    output_file_handler.writelines('\t\t\tPort: {0}\n'.format(dicts.get('PortInfo')))
+                                else :
+                                    output_file_handler.writelines('\t\t\t포트: {0}\n'.format(dicts.get('PortInfo')))
                         else:
-                            logging.warning('\t\t\tPort: {0}'.format(dicts.get('PortInfo')))
+                            if check_language==True :
+                                logging.warning('\t\t\tPort: {0}'.format(dicts.get('PortInfo')))
+                            else :
+                                logging.warning('\t\t\t포트: {0}'.format(dicts.get('PortInfo')))
                             if output_file!="":
-                                output_file_handler.writelines('\t\t\tPort: {0}\n'.format(dicts.get('PortInfo')))
+                                if check_language==True :
+                                    output_file_handler.writelines('\t\t\tPort: {0}\n'.format(dicts.get('PortInfo')))
+                                else :
+                                    output_file_handler.writelines('\t\t\t포트: {0}\n'.format(dicts.get('PortInfo')))
 
                     if 'ScriptInfo' in dicts:
-                        print( '\t\t\t\tScript Info: {0}'.format(dicts.get('ScriptInfo')))
+                        if check_language==True :
+                            print( '\t\t\t\tScript Info: {0}'.format(dicts.get('ScriptInfo')))
+                        else :
+                            print( '\t\t\t\t스크립트 정보: {0}'.format(dicts.get('ScriptInfo')))
                         if output_file!="":
-                            output_file_handler.writelines('\t\t\t\tScript Info: {0}\n'.format(dicts.get('ScriptInfo')))
+                            if check_language==True :
+                                output_file_handler.writelines('\t\t\t\tScript Info: {0}\n'.format(dicts.get('ScriptInfo')))
+                            else :
+                                output_file_handler.writelines('\t\t\t\t스크립트 정보: {0}\n'.format(dicts.get('ScriptInfo')))
 
                     if 'OsInfo' in dicts:
-                        print( '\t\t\tOs Info: {0}'.format(dicts.get('OsInfo')))
+                        if check_language==True :
+                            print( '\t\t\tOs Info: {0}'.format(dicts.get('OsInfo')))
+                        else :
+                            print( '\t\t\tOs 정보: {0}'.format(dicts.get('OsInfo')))
                         if output_file!="":
-                            output_file_handler.writelines('\t\t\tOs Info: {0}\n'.format(dicts.get('OsInfo')))
+                            if check_language==True :
+                                output_file_handler.writelines('\t\t\tOs Info: {0}\n'.format(dicts.get('OsInfo')))
+                            else :
+                                output_file_handler.writelines('\t\t\tOs 정보: {0}\n'.format(dicts.get('OsInfo')))
                     if 'ZT' in dicts:
-                        logging.critical('\t\t\tZone Transfer: {0}'.format(dicts.get('ZT')))
+                        if check_language==True :
+                            logging.critical('\t\t\tZone Transfer: {0}'.format(dicts.get('ZT')))
+                        else :
+                            logging.critical('\t\t\t영역 전송: {0}'.format(dicts.get('ZT')))
                         if output_file!="":
-                            output_file_handler.writelines('\t\t\tZone Transfer: {0}\n'.format(dicts.get('ZT')))
+                            if check_language==True :
+                                output_file_handler.writelines('\t\t\tZone Transfer: {0}\n'.format(dicts.get('ZT')))
+                            else :
+                                output_file_handler.writelines('\t\t\t영역 전송: {0}\n'.format(dicts.get('ZT')))
                     if 'DirIndex' in dicts:
-                        logging.critical('\t\t\tOpen Folders: {0}'.format(dicts.get('DirIndex')))
+                        if check_language==True :
+                            logging.critical('\t\t\tOpen Folders: {0}'.format(dicts.get('DirIndex')))
+                        else :
+                            logging.critical('\t\t\t여는 폴더: {0}'.format(dicts.get('DirIndex')))
                         if output_file!="":
-                            output_file_handler.writelines('\t\t\tOpen Folders: {0}\n'.format(dicts.get('DirIndex')))
+                            if check_language==True :
+                                output_file_handler.writelines('\t\t\tOpen Folders: {0}\n'.format(dicts.get('DirIndex')))
+                            else :
+                                output_file_handler.writelines('\t\t\t여는 폴더: {0}\n'.format(dicts.get('DirIndex')))
             print
-            logging.info('--------------End Summary --------------')
-            logging.info('-----------------------------------------')
+            if check_language==True :
+                logging.info('--------------End Summary --------------')
+                logging.info('-----------------------------------------')
+            else :
+                logging.info('--------------요약 종료 --------------')
+                logging.info('-----------------------------------------')
             if output_directory!=False:
-                output_file_handler.writelines('\n--------------End Summary --------------\n')
-                output_file_handler.writelines('-----------------------------------------\n')
+                if check_language==True :
+                    output_file_handler.writelines('\n--------------End Summary --------------\n')
+                    output_file_handler.writelines('-----------------------------------------\n')
+                else :
+                    output_file_handler.writelines('\n--------------요약 종료 --------------\n')
+                    output_file_handler.writelines('-----------------------------------------\n')
             print( '\n')
             if output_file != "":
                 output_file_handler.writelines('\n')
             if output_file != "" and create_pdf != False:
                 try:
-                    print( '\tCreating pdf file from {0} text output '.format(output_file))
+                    if check_language==True :
+                        print( '\tCreating pdf file from {0} text output '.format(output_file))
+                    else :
+                        print( '\t {0} 에서 텍스트를 출력하여 pdf 파일 생성중... '.format(output_file))
                     os.system('/usr/bin/pyText2pdf.py ' + output_file)
                 except OSError:
-                    logging.warning('Warning! pyText2pdf.py not found. Please download from http://code.activestate.com/recipes/532908-text-to-pdf-converter-rewrite/download/1/')
+                    if check_language==True :
+                        logging.warning('Warning! pyText2pdf.py not found. Please download from http://code.activestate.com/recipes/532908-text-to-pdf-converter-rewrite/download/1/')
+                    else :
+                        logging.warning('경고! pyText2pdf.py을(를) 찾을 수 없음. http://code.activestate.com/recipes/532908-text-to-pdf-converter-rewrite/download/1/에서 다운로드하십시오.')
         # If option != 1 we print all the data extracted until now
         else:
             # For each IP in the main dictionary
@@ -1974,7 +2444,7 @@ def printout(domain,ip,option):
                 for dicts in ip_vect:
                     if 'IpCountry' in dicts:
                         country=dicts.get('IpCountry')
-    
+
                 logging.info('\t\tIP: {0} ({1})'.format(ip,country))
                 if output_file!="":
                     output_file_handler.writelines('\t\tIP: {0} ({1})\n'.format(ip,country))
@@ -1983,26 +2453,56 @@ def printout(domain,ip,option):
             for dicts in ip_vect:
                 if 'PTR' in dicts:
                     if dicts.get('PTR') != hostname:
-                        logging.warning('\t\t\tHostName: {0}\t\t\tType: PTR'.format(dicts.get('PTR')))
+                        if check_language==True :
+                            logging.warning('\t\t\tHostName: {0}\t\t\tType: PTR'.format(dicts.get('PTR')))
+                        else :
+                            logging.warning('\t\t\t호스트 이름: {0}\t\t\t타입: PTR'.format(dicts.get('PTR')))
                         if output_file!="":
-                            output_file_handler.writelines('\t\t\tHostName: {0}\t\t\tType: PTR\n'.format(dicts.get('PTR')))
+                            if check_language==True :
+                                output_file_handler.writelines('\t\t\tHostName: {0}\t\t\tType: PTR\n'.format(dicts.get('PTR')))
+                            else :
+                                output_file_handler.writelines('\t\t\t호스트 이름: {0}\t\t\t타입: PTR\n'.format(dicts.get('PTR')))
                     else:
-                        print( '\t\t\tHostName: {0}\t\t\tType: PTR'.format(dicts.get('PTR')))
+                        if check_language==True :
+                            print( '\t\t\tHostName: {0}\t\t\tType: PTR'.format(dicts.get('PTR')))
+                        else :
+                            print( '\t\t\t호스트 이름: {0}\t\t\t타입: PTR'.format(dicts.get('PTR')))
                         if output_file!="":
-                            output_file_handler.writelines('\t\t\tHostName: {0}\t\t\tType: PTR\n'.format(dicts.get('PTR')))
+                            if check_language==True :
+                                output_file_handler.writelines('\t\t\tHostName: {0}\t\t\tType: PTR\n'.format(dicts.get('PTR')))
+                            else :
+                                output_file_handler.writelines('\t\t\t호스트 이름: {0}\t\t\t타입: PTR\n'.format(dicts.get('PTR')))
                 if 'Type' in dicts:
-                    print( '\t\t\tType: {0}'.format(dicts.get('Type')))
+                    if check_language==True :
+                        print( '\t\t\tType: {0}'.format(dicts.get('Type')))
+                    else :
+                        print( '\t\t\t타입: {0}'.format(dicts.get('Type')))
                     if output_file!="":
-                        output_file_handler.writelines('\t\t\tType: {0}\n'.format(dicts.get('Type')))
+                        if check_language==True :
+                            output_file_handler.writelines('\t\t\tType: {0}\n'.format(dicts.get('Type')))
+                        else :
+                            output_file_handler.writelines('\t\t\t타입: {0}\n'.format(dicts.get('Type')))
                 if 'HostName' in dicts:
                     hostname=dicts.get('HostName')
-                    print( '\t\t\tHostName: {0}'.format(dicts.get('HostName')),)
+                    if check_language==True :
+                        print( '\t\t\tHostName: {0}'.format(dicts.get('HostName')),)
+                    else :
+                        print( '\t\t\t호스트 이름: {0}'.format(dicts.get('HostName')),)
                     if output_file!="":
-                        output_file_handler.writelines('\t\t\tHostName: {0}'.format(dicts.get('HostName')))
+                        if check_language==True :
+                            output_file_handler.writelines('\t\t\tHostName: {0}'.format(dicts.get('HostName')))
+                        else :
+                            output_file_handler.writelines('\t\t\t호스트 이름: {0}'.format(dicts.get('HostName')))
                 if 'SubDomain' in dicts:
-                    logging.error('\t\t\tSub Domain: {0} <- New Subdomain!'.format(dicts['SubDomain']))
+                    if check_language==True :
+                        logging.error('\t\t\tSub Domain: {0} <- New Subdomain!'.format(dicts['SubDomain']))
+                    else :
+                        logging.error('\t\t\t하위 도메인: {0} <- 새 하위 도메인!'.format(dicts['SubDomain']))
                     if output_file!="":
-                        output_file_handler.writelines('\t\t\tSub Domain: {0} <- New Subdomain!\n'.format(dicts['SubDomain']))
+                        if check_language==True :
+                            output_file_handler.writelines('\t\t\tSub Domain: {0} <- New Subdomain!\n'.format(dicts['SubDomain']))
+                        else :
+                            output_file_handler.writelines('\t\t\t하위 도메인: {0} <- 새 하위 도메인!\n'.format(dicts['SubDomain']))
     except Exception as inst:
         print( type(inst) )    # the exception instance
         print( inst.args  )    # arguments stored in .args
@@ -2013,7 +2513,10 @@ def printout(domain,ip,option):
     except KeyboardInterrupt:
         try:
             # CTRL-C pretty handling.
-            print( "Keyboard Interruption!. Skiping printout step. Press CTRL-C again to exit.")
+            if check_language==True :
+                print( "Keyboard Interruption!. Skiping printout step. Press CTRL-C again to exit.")
+            else :
+                print( "키보드 중단! 인쇄 단계 건너뛰는중. 종료하려면 CTRL-C를 다시 누르십시오..")
             time.sleep(1)
             return (2)
         except KeyboardInterrupt:
@@ -2045,6 +2548,7 @@ def analyze_domain(domain):
         global all_robtex
         global domains_still_to_analyze
         global zenmap_command
+        global check_language
 
         domain_data={}
         domain_data['IpsInfo']={}
@@ -2057,19 +2561,30 @@ def analyze_domain(domain):
                     return 0
             # First check if the hostname given is in fact a domain...
             try:
-                print( '\tChecking if the hostname {0} given is in fact a domain...'.format(domain))
+                if check_language==True :
+                    print( '\tChecking if the hostname {0} given is in fact a domain...'.format(domain))
+                else :
+                    print( '\t지정된 호스트 이름 {0} 이(가) 실제로 도메인인지 확인중...'.format(domain))
 
                 # If a host has a NS for its own, then we think its a domain
                 if debug:
                     logging.debug('\t\t> Checking if {0} is a domain...'.format(domain),)
                 host_name_ns = dns.resolver.query(domain, 'NS')
             except:
-                logging.error('\tThe given name doesn\'t seem to be a domain since there are no NS servers assigned to it. Stopping.')
-                logging.error('\tThe dnspython library in macos can not find domains such as com. It is a bug in the library. Linux can.\n')
-                return -1 
+                if check_language==True :
+                    logging.error('\tThe given name doesn\'t seem to be a domain since there are no NS servers assigned to it. Stopping.')
+                    logging.error('\tThe dnspython library in macos can not find domains such as com. It is a bug in the library. Linux can.\n')
+                else :
+                    logging.error('\t지정된 이름은 NS 서버가 할당되지 않았기 때문에 도메인이 아닌 것 같음. 중지중 ')
+                    logging.error('\t마코스의 dnspython 라이브러리는 com과 같은 도메인을 찾을 수 없다. \n')
+
+                return -1
             # Now we are sure its a domain!
-            print
-            logging.debug('Analyzing domain: {0}'.format(domain))
+            print()
+            if check_language==True :
+                logging.debug('Analyzing domain: {0}'.format(domain))
+            else :
+                logging.debug('도메인 분석: {0}'.format(domain))
             # If an output directory was selected, we create an output file...
             if output_directory!=False:
                 # Create different directories for the new domains
@@ -2078,25 +2593,47 @@ def analyze_domain(domain):
                     os.mkdir(output_directory)
                 except OSError:
                     try:
-                        logging.warning('\tOutput directory already exists, press CTRL-C NOW if you want to override the files on it.')
+                        if check_language==True :
+                            logging.warning('\tOutput directory already exists, press CTRL-C NOW if you want to override the files on it.')
+                        else :
+                            logging.warning('\t출력 디렉토리가 이미 있는 경우 파일의 재정의를 위해 CTRL-C 를 누르십시오.')
                         time.sleep(2)
                         return (-1)
                     except KeyboardInterrupt:
                         pass
                 output_file=output_directory+'/'+domain+'.txt'
                 output_file_handler=open(output_file,'w')
-                logging.info('\tOutput directory name: {0}'.format(output_directory))
+                if check_language==True :
+                    logging.info('\tOutput directory name: {0}'.format(output_directory))
+                else :
+                    logging.info('\t출력 디렉토리 이름: {0}'.format(output_directory))
             if output_file:
-                logging.info('\tOutput summary file: {0}'.format(output_file))
+                if check_language==True :
+                    logging.info('\tOutput summary file: {0}'.format(output_file))
+                else :
+                    logging.info('\t출력 요약 파일: {0}'.format(output_file))
             if ignore_host_pattern:
-                logging.info('\tIgnoring host with this pattern: {0}\n'.format(ignore_host_pattern))
+                if check_language==True :
+                    logging.info('\tIgnoring host with this pattern: {0}\n'.format(ignore_host_pattern))
+                else :
+                    logging.info('\t이 패턴으로 무시중인 호스트: {0}\n'.format(ignore_host_pattern))
             if output_file!="":
-                output_file_handler.writelines('Analysing domain : {0}\n'.format(domain))
-                output_file_handler.writelines('\tOutput directory name: {0}\n'.format(domain))
+                if check_language==True :
+                    output_file_handler.writelines('Analysing domain : {0}\n'.format(domain))
+                    output_file_handler.writelines('\tOutput directory name: {0}\n'.format(domain))
+                else :
+                    output_file_handler.writelines('분석중인 도메인 : {0}\n'.format(domain))
+                    output_file_handler.writelines('\t출력 디렉토리 이름: {0}\n'.format(domain))
                 if output_file:
-                    output_file_handler.writelines('\tOutput summary file: {0}\n'.format(output_file))
+                    if check_language==True :
+                        output_file_handler.writelines('\tOutput summary file: {0}\n'.format(output_file))
+                    else :
+                        output_file_handler.writelines('\t출력 요약 파일: {0}\n'.format(output_file))
                 if ignore_host_pattern:
-                    output_file_handler.writelines('\tIgnoring host with this pattern: {0}\n\n\n'.format(ignore_host_pattern))
+                    if check_language==True :
+                        output_file_handler.writelines('\tIgnoring host with this pattern: {0}\n\n\n'.format(ignore_host_pattern))
+                    else :
+                        output_file_handler.writelines('\t이 패턴으로 무시중인 호스트: {0}\n\n\n'.format(ignore_host_pattern))
             # If we have DNS information for the domain...
             if dns_request(domain) != -1:
                 # Check domain related emails using goog-mail.py
@@ -2122,18 +2659,30 @@ def analyze_domain(domain):
                             # Move everything to xml directory
                             os.system('mv ' + output_directory + '/nmap/*.xml ' + output_directory + '/nmap/xml')
                         except OSError:
-                            print('There was an error creating the xml folder for storing the files for zenmap. Trying to continue.')
+                            if check_language==True :
+                                print('There was an error creating the xml folder for storing the files for zenmap. Trying to continue.')
+                            else :
+                                print('zenmap용 파일을 저장할 xml 폴더를 만드는 중 오류가 발생함. 계속 시도 하시오.')
                     elif output_directory == False:
-                        logging.debug('\tTo use zenmap you must specify an output directory and store nmap output files.')
-                    # Do it more generic so other systems can use zenmap 
+                        if check_language==True :
+                            logging.debug('\tTo use zenmap you must specify an output directory and store nmap output files.')
+                        else :
+                            logging.debug('\tzenmap을 사용하려면 출력 디렉토리를 지정하고 nmap 출력 파일을 저장하시오.')
+                    # Do it more generic so other systems can use zenmap
                     command_line = zenmap_command + ' ' + output_directory + '/nmap/xml'
                     args = shlex.split(command_line)
                     Popen(args)
                 # Are you sure about this?
                 if robin_hood == True:
-                    logging.warning('Are you sure do you want to send an email with the report to every email address found in the domain??? ( No / Yes, I want )')
+                    if check_language==True :
+                        logging.warning('Are you sure do you want to send an email with the report to every email address found in the domain??? ( No / Yes, I want )')
+                    else :
+                        logging.warning('도메인에 있는 모든 전자 메일 주소로 리포트와 함께 전자 메일을 보내시겠습니까? ( No / Yes, I want )')
                     if output_file!="":
-                        output_file_handler.writelines('Are you sure do you want to send an email with the report to every email address found in the domain??? ( No / Yes, I want )\n')
+                        if check_language==True :
+                            output_file_handler.writelines('Are you sure do you want to send an email with the report to every email address found in the domain??? ( No / Yes, I want )''\n')
+                        else :
+                            output_file_handler.writelines('도메인에 있는 모든 전자 메일 주소로 리포트와 함께 전자 메일을 보내시겠습니까? ( No / Yes, I want )''\n')
                     text2 = raw_input()
                     if text2 == 'Yes, I want':
                         robin_hood_send()
@@ -2167,6 +2716,7 @@ def find_robtex_domains():
     global domains_still_to_analyze
     global all_robtex
     global robtex_domains
+    global check_language
     try:
 
         import string
@@ -2176,10 +2726,15 @@ def find_robtex_domains():
         import random
 
         # This is not working: domain_analyzer_v0.5.py -d law.edu.ru -o law.edu.ru -b -a -n -g -v "in-addr.arpa" -D
-
-        print( 'Finding new unrelated domains to analyze with robtex.')
+        if check_language==True :
+            print( 'Finding new unrelated domains to analyze with robtex.')
+        else :
+            print( 'robtex로 분석할 새 관련 없는 도메인 찾기.')
         if output_directory!=False:
-            output_file_handler.writelines('Finding new unrelated domains to analyze with robtex.\n')
+            if check_language==True :
+                output_file_handler.writelines('Finding new unrelated domains to analyze with robtex.\n')
+            else :
+                output_file_handler.writelines('robtex로 분석할 새 관련 없는 도메인 찾기.\n')
 
         # Search every DNS with ZT active in this domain
         for ip in domain_data['IpsInfo']:
@@ -2190,23 +2745,29 @@ def find_robtex_domains():
                     if 'HostName' in dicts:
                         hostname=dicts['HostName']
                     if 'ZT' in dicts:
-                        # Now we store the dns server in the list (for recursion) but avoid repiting! 
+                        # Now we store the dns server in the list (for recursion) but avoid repiting!
                         # We use the IP because a lot of dns has several different names.
                         if not ip in ns_servers_to_robtex:
-                            ns_servers_to_robtex[ip]=hostname        
+                            ns_servers_to_robtex[ip]=hostname
                             if debug:
-                                logging.debug('\tName server {0} ({1}) was added to be checked with robtex.'.format(ip, hostname))
+                                if check_language==True :
+                                    logging.debug('\tName server {0} ({1}) was added to be checked with robtex.'.format(ip, hostname))
+                                else :
+                                    logging.debug('\t이름 서버 {0}({1})을 추가하여 robtex로 확인.'.format(ip, hostname))
             elif all_robtex:
                 for dicts in ip_vect:
                     if 'HostName' in dicts:
                         hostname=dicts['HostName']
                     if 'NS' in dicts:
-                        # Now we store the dns server in the list (for recursion) but avoid repiting! 
+                        # Now we store the dns server in the list (for recursion) but avoid repiting!
                         # We use the IP because a lot of dns has several different names.
                         if not ip in ns_servers_to_robtex:
-                            ns_servers_to_robtex[ip]=hostname        
+                            ns_servers_to_robtex[ip]=hostname
                             if debug:
-                                logging.debug('\tName server {0} ({1}) was added to be checked with robtex.'.format(ip, hostname))
+                                if check_language==True :
+                                    logging.debug('\tName server {0} ({1}) was added to be checked with robtex.'.format(ip, hostname))
+                                else :
+                                    logging.debug('\t이름 서버 {0}({1})을 추가하여 robtex로 확인.'.format(ip, hostname))
 
 
         # For each ns_server in queue to search...
@@ -2215,9 +2776,15 @@ def find_robtex_domains():
 
             # This is because the dictionary can grow recursively, so every time we check a dns server, we mark it as checked
             if hostname:
-                logging.info('\tName server {0} ({1}) already had Zone Transfer, searching for more domains using it...'.format(ip, hostname))
+                if check_language==True :
+                    logging.info('\tName server {0} ({1}) already had Zone Transfer, searching for more domains using it...'.format(ip, hostname))
+                else :
+                    logging.info('\t이름 서버 {0}({1})이(가) 이미 영역 전송을 가지고 있으며, 이 서버를 사용하여 더 많은 도메인을 검색 중...'.format(ip, hostname))
                 if output_directory!=False:
-                    output_file_handler.writelines('\tName server {0} ({1}) had Zone Transfer, searching for more domains using it...\n')
+                    if check_language==True :
+                        output_file_handler.writelines('\tName server {0} ({1}) had Zone Transfer, searching for more domains using it...\n')
+                    else :
+                        output_file_handler.writelines('\t이름 서버 {0}({1})이(가) 이미 영역 전송을 가지고 있으며, 이 서버를 사용하여 더 많은 도메인을 검색 중...\n')
 
                 # For each DNS server ask robtex unrelated domains with the same DNS
                 results_web = 'http://www.robtex.com/dns/'+ hostname +'.html'
@@ -2233,15 +2800,20 @@ def find_robtex_domains():
                 # This is because the dictionary can grow recursively, so every time we check a dns server, we mark it as checked
                 ns_servers_to_robtex[ip]=False
 
-                # Here we should extract the unrelated domains 
+                # Here we should extract the unrelated domains
                 try:
                     #text2=text.split('<span id="sharedns">')[1].split('</div>')[0].split(')')[1]
                     text2=text.split('id="dns1"')[1].split('<div class="div4">')[0].split(')')[1]
                     temp_domains = re.findall('(href="\w[\w\.\-]+\.html")',text2)
-
-                    logging.info('\tWe found {0} more domains:'.format(len(temp_domains)))
+                    if check_language==True :
+                        logging.info('\tWe found {0} more domains:'.format(len(temp_domains)))
+                    else :
+                        logging.info('\t{0}개의 추가 도메인을 발견:'.format(len(temp_domains)))
                     if output_directory!=False:
-                        output_file_handler.writelines('\tWe found {0} more domains:\n'.format(len(temp_domains)))
+                        if check_language==True :
+                            output_file_handler.writelines('\tWe found {0} more domains:\n'.format(len(temp_domains)))
+                        else :
+                            output_file_handler.writelines('\t{0}개의 추가 도메인을 발견:\n'.format(len(temp_domains)))
 
                     # Extract the exact domain name from the href
                     for temp_domain in temp_domains:
@@ -2252,11 +2824,17 @@ def find_robtex_domains():
                             # If the domain was there already, do not append it
                             t=domains_still_to_analyze.index(unrelated_domain)
                             if debug:
-                                logging.debug('\t\t> Not adding domain {0} because it is repeated'.format(unrelated_domain))
+                                if check_language==True :
+                                    logging.debug('\t\t> Not adding domain {0} because it is repeated'.format(unrelated_domain))
+                                else :
+                                    logging.debug('\t\t> 도메인 {0}이(가) 반복되어 추가되지 않음'.format(unrelated_domain))
                         except ValueError:
                             # If the domain wasn't there, append it
                             if debug:
-                                logging.debug('\t\t> Adding domain {0}'.format(unrelated_domain))
+                                if check_language==True :
+                                    logging.debug('\t\t> Adding domain {0}'.format(unrelated_domain))
+                                else :
+                                    logging.debug('\t\t> 도메인 추가중 {0}'.format(unrelated_domain))
                             print( '\t\t{0}'.format(unrelated_domain))
                             if output_file!="":
                                 output_file_handler.writelines('\t\t{0}'.format(unrelated_domain))
@@ -2268,9 +2846,15 @@ def find_robtex_domains():
                             print( inst       )    # __str__ allows args to printed directly
 
                 except:
-                    logging.info('\t\tNo more domains found in robtex')
+                    if check_language==True :
+                        logging.info('\t\tNo more domains found in robtex')
+                    else :
+                        logging.info('\t\trobtex에서 더 이상 도메인을 찾을 수 없음')
                     if output_directory!=False:
-                        output_file_handler.writelines('\t\tNo more domains found in robtex\n')
+                        if check_language==True :
+                            output_file_handler.writelines('\t\tNo more domains found in robtex\n')
+                        else :
+                            output_file_handler.writelines('\t\trobtex에서 더 이상 도메인을 찾을 수 없음\n')
 
 
 
@@ -2284,7 +2868,10 @@ def find_robtex_domains():
     except KeyboardInterrupt:
         try:
             # CTRL-C pretty handling.
-            print( "Keyboard Interruption!. Skiping robtex step. Press CTRL-C again to exit.")
+            if check_language==True :
+                print( "Keyboard Interruption!. Skiping robtex step. Press CTRL-C again to exit.")
+            else :
+                print( "키보드 중단! 롭텍스 스텝 건너뛰는중. 종료하려면 CTRL-C를 다시 누르십시오.")
             time.sleep(1)
             return (2)
 
@@ -2375,6 +2962,7 @@ def web_crawl_domain():
         global max_amount_to_crawl
         global output_file_handler
         global download_files
+        global check_language
 
         try:
             # Crawler is our own web crawler that tries to find web non-aggresive vulns
@@ -2383,9 +2971,15 @@ def web_crawl_domain():
             # We should try to crawl every website (in its correct port) on every host. And perhaps we have to try to crawl it using its
             # IP address if the host name does not work
 
-            print( '\tWebCrawling domain\'s web servers... up to {0} max links.'.format(max_amount_to_crawl))
+            if check_language==True :
+                print( '\tWebCrawling domain\'s web servers... up to {0} max links.'.format(max_amount_to_crawl))
+            else :
+                print( '\tWebCrawing domain\의 웹 서버... 최대 {0}개의 최대 링크.'.format(max_amount_to_crawl))
             if output_file!="":
-                output_file_handler.writelines('\tWebCrawling domain\'s web servers... up to {0} max links.\n'.format(max_amount_to_crawl))
+                if check_language==True :
+                    output_file_handler.writelines('\tWebCrawling domain\'s web servers... up to {0} max links.\n'.format(max_amount_to_crawl))
+                else :
+                    output_file_handler.writelines('\tWebCrawing domain\의 웹 서버... 최대 {0}개의 최대 링크.\n'.format(max_amount_to_crawl))
 
             # If we are debbuging, so the crawler
             if debug:
@@ -2414,7 +3008,10 @@ def web_crawl_domain():
                         # Store last domain for this IP
                         temp_host_name_to_crawl.append(dicts.get('HostName'))
                         if debug:
-                            logging.debug('\t\t> Adding hostname to crawl: {0}'.format(dicts.get('HostName')))
+                            if check_language==True :
+                                logging.debug('\t\t> Adding hostname to crawl: {0}'.format(dicts.get('HostName')))
+                            else :
+                                logging.debug('\t\t> 탐색할 호스트 이름 추가: {0}'.format(dicts.get('HostName')))
 
                 #Uniquify this list (sometimes a hostname appers twice. once as A record and once as MX or NS record)
                 host_name_to_crawl_dict=set(temp_host_name_to_crawl)
@@ -2432,7 +3029,10 @@ def web_crawl_domain():
                             # Separate the port number
                             port_number=temp_port_info.split('/')[0]
                             if debug:
-                                logging.debug('\t\t> We have got a new web port: {0}'.format(port_number))
+                                if check_language==True :
+                                    logging.debug('\t\t> We have got a new web port: {0}'.format(port_number))
+                                else :
+                                    logging.debug('\t\t> 새로운 웹 포트를 얻음: {0}'.format(port_number))
                             if temp_port_info.find(' ssl/http ') != -1:
                                 # It was an https port!
                                 for hntc in host_name_to_crawl_dict:
@@ -2441,7 +3041,10 @@ def web_crawl_domain():
                                     else:
                                         temp_host_name='https://'+hntc+':'+port_number
                                     if debug:
-                                        logging.debug('\tCrawling ssl site {0}, port {1}, max {2} links'.format(temp_host_name,port_number,max_amount_to_crawl))
+                                        if check_language==True :
+                                            logging.debug('\tCrawling ssl site {0}, port {1}, max {2} links'.format(temp_host_name,port_number,max_amount_to_crawl))
+                                        else :
+                                            logging.debug('\t ssl 사이트 {0}, 포트 {1}, 최대 {2} links 탐색중'.format(temp_host_name,port_number,max_amount_to_crawl))
                                     #
                                     # Here we crawl!!!
                                     #
@@ -2458,7 +3061,10 @@ def web_crawl_domain():
                                     else:
                                         temp_host_name='http://'+hntc+':'+port_number
                                     if debug:
-                                        logging.debug('\tCrawling site {0}, port {1}, max {2} links'.format(temp_host_name,port_number,max_amount_to_crawl))
+                                        if check_language==True :
+                                            logging.debug('\tCrawling site {0}, port {1}, max {2} links'.format(temp_host_name,port_number,max_amount_to_crawl))
+                                        else :
+                                            logging.debug('\tssl 사이트 {0}, 포트 {1}, 최대 {2} links 탐색중'.format(temp_host_name,port_number,max_amount_to_crawl))
                                     #
                                     # Here we crawl!!!
                                     #
@@ -2551,6 +3157,13 @@ def main():
         global download_files
         global all_robtex
         global zenmap_command
+        global check_language
+
+        print("언어를 선택해 주세요 (KOR 입력/ ENG 입력)")
+        a = input()
+        if a == 'KOR' :
+            check_language = False
+
 
         domain=""
 
@@ -2593,6 +3206,7 @@ def main():
         if opt in ("-B", "--all-robtex"): all_robtex=True
 
 
+
     try:
         # Configure colors
         if colors:
@@ -2620,15 +3234,23 @@ def main():
             else:
                 # No zenmap
                 zenmap = False
-                print('Zenmap disabled because it was not found in the system.')
-        # Add a . to the domain name. This is to avoid somo local DNS searches, specially in macos. Where the domain can appear as non existant. 
-        # This allow us to search for TLDs such as 'com' domain. The final query is then 'com.' 
+                if check_language==True :
+                    print('Zenmap disabled because it was not found in the system.')
+                else :
+                    print('Zenmap이 시스템에서 발견되지 않아 비활성화됨.')
+        # Add a . to the domain name. This is to avoid somo local DNS searches, specially in macos. Where the domain can appear as non existant.
+        # This allow us to search for TLDs such as 'com' domain. The final query is then 'com.'
         # In the case of normal domains, such as, 'test.com', the query ends up being 'test.com.'
         domain += '.'
         # Control that the domain name does not start with a '.'
         if domain[0] == '.':
             domain = domain[1:]
-            print("Domains should not start with a '.'. So I\'m stripping it off. The domain I\'m looking for now is: {}".format(domain))
+            if check_language==True :
+                print("Domains should not start with a '.'. So I\'m stripping it off. The domain I\'m looking for now is: {}".format(domain))
+
+            else :
+                print("도메인은 '.'으로 시작하지 않아야 한다. '.' 제거중. 지금 I\ 도메인이 검색되는 위치: {}".format(domain))
+
 
         #
         # Normal way, NOT World Domination!
@@ -2641,11 +3263,17 @@ def main():
 
             # Check for parameter inconsistences
             if output_directory == False and create_pdf == True:
-                logging.warning('\tWarning. You request to use create a pdf but no output directory was indicated.')
+                if check_language==True :
+                    logging.warning('\tWarning. You request to use create a pdf but no output directory was indicated.')
+                else :
+                    logging.warning('\t경고 pdf 생성을 사용하도록 요청했지만 출력 디렉터리가 표시되지 않음.')
                 exit (-1)
 
             if output_directory == False and download_files == True:
-                logging.warning('\tWarning. You request to use download files but no output directory was indicated.')
+                if check_language==True :
+                    logging.warning('\tWarning. You request to use download files but no output directory was indicated.')
+                else :
+                    logging.warning('\t경고 pdf 생성을 사용하도록 요청했지만 출력 디렉터리가 표시되지 않음.')
                 exit (-1)
 
             # Do we have GeoIP?? CHECK IT WITHOUT COUNTRYS
@@ -2655,7 +3283,10 @@ def main():
                     geoip_cache = GeoIP.new(GeoIP.GEOIP_MEMORY_CACHE)
                 except:
                     countrys=False
-                    logging.warning('\tWARNING!! You don\'t have GeoIP libraries. apt-get install python-geoip\n\n')
+                    if check_language==True :
+                        logging.warning('\tWARNING!! You don\'t have GeoIP libraries. apt-get install python-geoip\n\n')
+                    else :
+                        logging.warning('\t경고!! GeoIP 라이브러리가 없음 apt-get install python-geoip\n\n')
             # If selected, find N random domains and analyze them
             if amount_of_random_domains:
                 domain_list = find_and_analyze_random_domains(domain, amount_of_random_domains)
@@ -2665,7 +3296,10 @@ def main():
                 # For every domain found, we analyze them
                 for unrelated_domain in domains_still_to_analyze:
                     print
-                    logging.info('Domains still to check: {0}'.format(len(domains_still_to_analyze)))
+                    if check_language==True :
+                        logging.info('Domains still to check: {0}'.format(len(domains_still_to_analyze)))
+                    else :
+                        logging.info('확인할 도메인: {0}'.format(len(domains_still_to_analyze)))
                     # Analyze the main domain
                     analyze_domain(unrelated_domain)
                     # We delete it from the list
@@ -2678,14 +3312,20 @@ def main():
         # WORLD DOMINATION!!!!
         # We don't recomend to use world-domination and robin-hood at the same time...
         elif world_domination == True and robin_hood == False and nmap==0:
-            logging.warning('WARNING! World domination mode activate!, are you sure? ( No / Yes, I\'m sure. )')
+            if check_language==True :
+                logging.warning('WARNING! World domination mode activate!, are you sure? ( No / Yes, I\'m sure. )')
+            else :
+                logging.warning('경고! 세계 지배 모드가 활성화됨! 확실해? ( No / Yes, I\'m sure. )')
             text = raw_input()
 
             if text == 'Yes, I\'m sure.':
 
                 # Check if zenmap and 'not nmap' options are not enabled at the same time
                 if zenmap == 1 and nmap == 0:
-                    logging.warning('\tWarning. You request to use Zenmap but disable the use of nmap. Do not use -a option if you want -e option.')
+                    if check_language==True :
+                        logging.warning('\tWarning. You request to use Zenmap but disable the use of nmap. Do not use -a option if you want -e option.')
+                    else :
+                        logging.warning('\t경고 Zenmap 사용을 요청하지만 nmap 사용을 비활성화하는 경우. 원하는 경우 -a 옵션을 사용하지 마십시오.')
                     exit (-1)
                 # If not, add traceroute to nmap
                 #elif zenmap == 1 and nmap != 0:
@@ -2694,7 +3334,10 @@ def main():
 
                 # Check for parameter insonsistences
                 if output_directory == False and create_pdf == True:
-                    logging.warning('\tWarning. You request to use create a pdf but do not indicate an output directory.')
+                    if check_language==True :
+                        logging.warning('\tWarning. You request to use create a pdf but do not indicate an output directory.')
+                    else :
+                        logging.warning('\t경고 pdf 생성을 사용하도록 요청하지만 출력 디렉터리를 나타내지 않음.')
                     exit (-1)
 
                 # Do we have GeoIP??
@@ -2705,7 +3348,10 @@ def main():
 
                     except:
                         countrys=False
-                        logging.warning('\tWARNING! You don\'t have GeoIP libraries. apt-get install python-geoip')
+                        if check_language==True :
+                            logging.warning('\tWARNING! You don\'t have GeoIP libraries. apt-get install python-geoip')
+                        else :
+                            logging.warning('\t경고!! GeoIP 라이브러리가 없음. apt-get install python-geoip')
 
                 # HERE
                 world_domination_check()
@@ -2730,7 +3376,11 @@ def main():
         # CTRL-C pretty handling.
         if output_directory!=False and output_file_handler:
             output_file_handler.close()
-        print( "Keyboard Interruption!. Closing files and exiting.")
+
+        if check_language==True :
+            print( "Keyboard Interruption!. Closing files and exiting.")
+        else :
+            print( "키보드 중단! 파일을 닫고 종료 중..")
         sys.exit(1)
 
 
